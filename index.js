@@ -1,3 +1,4 @@
+import {updateIrradiance} from './updateIrradiance';
 
 var config = {
     type: Phaser.AUTO,
@@ -31,12 +32,7 @@ var max = 100
 var min = 0
 
 var game = new Phaser.Game(config);
-
-function updateIrradiance() {
-
-    fetch('irradiance.csv')
-        .then(response => console.log(response));
-}
+updateIrradiance();
 
 function preload() {
     this.load.image('sky', 'assets/sky.png');
