@@ -26,6 +26,9 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 
+var max = 100
+var min = 0
+
 var game = new Phaser.Game(config);
 
 function updateIrradiance(){
@@ -70,22 +73,17 @@ function create ()
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('Astronaut'),
-        frameRate: 10,
-        repeat: -1
+        frames: 'Astronaut'
     });
 
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'Astronaut'} ],
-        frameRate: 20
+        frames: 'Astronaut'
     });
 
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('Astronaut'),
-        frameRate: 10,
-        repeat: -1
+        frames: 'Astronaut'
     });
 
     //  Input Events
