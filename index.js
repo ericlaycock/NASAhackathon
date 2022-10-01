@@ -25,6 +25,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var player_speed // Set's the player's speed between normal and boost
 
 var game = new Phaser.Game(config);
 
@@ -54,18 +55,12 @@ function create ()
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    platforms.create(400, 630, 'ground').setScale(2).refreshBody();
 
-    //  Now let's create some ledges
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
 
     // The player and its settings
-
-
     player = this.physics.add.sprite(100, 450, 'Astronaut');
-
+    player.setCollideWorldBounds(true);
 
 //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
@@ -76,7 +71,11 @@ function create ()
 
     //  Player physics properties. Give the little guy a slight bounce.
     //player.setBounce(0.2);
-    //player.setCollideWorldBounds(true);
+    
+    //  Now let's create some ledges
+    //platforms.create(600, 400, 'ground');
+    //platforms.create(50, 250, 'ground');
+    //platforms.create(750, 220, 'ground');
 
 // _________________________________________________________________________________
 
@@ -144,13 +143,13 @@ function update ()
 
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
+        player.setVelocityX(-player_speed);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
+        player.setVelocityX(player_speed);
 
         player.anims.play('right', true);
     }
@@ -161,18 +160,17 @@ function update ()
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown) // EP: when keyboard up is pressed, move up
-    {
-        player.setVelocityY(-160);
+    if (cursors.up.isDown) { // EP: Enables float
+        player.setVelocityY(-player_speed);
+        } else if (cursors.down.isDown){
+        player.setVelocityY(player_speed);
+        } else {
+        player.setVelocityY(-5)
     }
-    if (cursors.down.isDown) // EP: hen keyboard down is pressed, move up
-    {
-        player.setVelocityY(160);
-    }
-    if (cursors.space.isDown) // EP: hen keyboard down is pressed, move up
-    {
-        player.setVelocityY(-160);
-    }
+    if (cursors.space.isDown) { //EP: Enables Booster
+        player_speed = 800}
+        else {player_speed = 200}
+
 }
 
 function collectStar (player, star)
