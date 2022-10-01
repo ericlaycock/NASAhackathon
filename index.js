@@ -188,15 +188,14 @@ function collectStar(player, star) {
     star.allowGravity = true;
 
 
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    //var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-        var fire = fire.create(x, 16, 'fire');
-        fire.setBounce(1);
-        fire.setCollideWorldBounds(true);
-        fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        fire.allowGravity = false;
+//    var fire = fire.create(x, 16, 'fire');
+//   fire.setBounce(1);
+//    fire.setCollideWorldBounds(true);
+//    fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
+//    fire.allowGravity = false;
 
-    }
 }
 
 function hitFire (player, fire)
