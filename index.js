@@ -6,7 +6,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 50 },
             debug: false
         }
     },
@@ -113,6 +113,9 @@ function create() {
         },
     });
 
+    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
+    //star.checkWorldBounds = true;
+    //star.events.onOutOfBounds.add(starOut, this);
 
     fire = this.physics.add.group();
 
@@ -126,8 +129,8 @@ function create() {
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
-
     this.physics.add.collider(player, fire, hitFire, null, this);
+
 }
 
 
@@ -180,17 +183,8 @@ function collectStar(player, star) {
     star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
-
-    var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-    var fire = fire.create(x, 16, 'fire');
-    fire.setBounce(1);
-    fire.setCollideWorldBounds(true);
-    fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    fire.allowGravity = false;
-
 }
-}
+
 
 function hitFire(player, fire) {
     //this.physics.pause();
@@ -202,3 +196,10 @@ function hitFire(player, fire) {
     //gameOver = true;
     //TO DO: we want this to decrease pts
 }
+
+//function starOut(star) {
+
+    //  Move the star to the top of the screen again
+    //star.reset(Phaser.Math.RND.between(0, 800), 16, 'star');
+
+//}
