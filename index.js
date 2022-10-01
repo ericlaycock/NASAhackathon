@@ -40,7 +40,7 @@ function updateIrradiance() {
 }
 
 function preload() {
-//    this.load.image('sky', 'assets/sky.png');
+    //    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('sun', 'assets/sun.png');
     this.load.image('ground', 'assets/platform.png');
@@ -51,7 +51,7 @@ function preload() {
 
 function create() {
     //  A simple background for our game
-    this.add.image(config.height/2, config.width/2, 'space');
+    this.add.image(config.height / 2, config.width / 2, 'space');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
@@ -113,40 +113,44 @@ function create() {
         },
     });
 
-    // TODO: Megan delete
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
 
     // TODO: Christine to fix
     fire = this.physics.add.group();
 
     //  A simple foreground for our game
-    this.add.image(config.height/2+100, config.width/2-100, 'sun');
+    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
 
-    irradText = this.add.text(16,32,'irradiance: 0',{ fontSize: '32px',fill: '#000'});
+    irradText = this.add.text(16, 32, 'irradiance: 0', { fontSize: '32px', fill: '#000' });
     irradText.setStyle({ color: '#42f560' });
 
-    
+
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
 
     // TODO: Christine to delete
     this.physics.add.collider(fire, platforms);
 
-    
+
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
+    this.physics.add.collider(platforms, stars, resetStar, null, this);
+
+    // handle star going off screen
+    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
+    //star.checkWorldBounds = true;
+    //star.events.onOutOfBounds.add(starOut, this);
+
+
+    //  A simple foreground for our game
+    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
+
+
 }
 
 
@@ -195,7 +199,7 @@ function collectStar(player, star) {
     scoreText.setText('Score: ' + score);
 
     var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
-    star.setCollideWorldBounds(true);
+    //star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
     //_________________________________________________________________________________
@@ -217,4 +221,8 @@ function hitFire(player, fire) {
 
     //gameOver = true;
     //TO DO: we want this to decrease pts
+}
+
+function resetStar(platforms, stars) {
+    stars.setPosition(stars.x, 0);
 }
