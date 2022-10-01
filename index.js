@@ -175,8 +175,8 @@ function update() {
         let time2 = new Date();
         let timeindex = Math.round((time2.getTime() - time1.getTime())/1000);
         let package = irradiance(timeindex);
-        let globalindex = package['globalindex'];
-        let globalirrad = package['irradlevel'];
+        let globalindex = package.globalindex;
+        let globalirrad = package.irradlevel;
         console.log(globalindex);
         console.log(globalirrad);
         irradText.setText('irradiance (mW/m^2): '+globalirrad);
