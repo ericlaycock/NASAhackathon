@@ -1,3 +1,8 @@
+console.log("1");
+import {updateIrradiance} from './updateIrradiance.js';
+console.log("2");
+updateIrradiance();
+console.log("3");
 
 var config = {
     type: Phaser.AUTO,
@@ -6,7 +11,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300},
+            gravity: { y: 50 },
             debug: false
         }
     },
@@ -31,12 +36,7 @@ var max = 100
 var min = 0
 
 var game = new Phaser.Game(config);
-
-function updateIrradiance() {
-
-    fetch('irradiance.csv')
-        .then(response => console.log(response));
-}
+// updateIrradiance();
 
 function preload() {
     this.load.image('sky', 'assets/sky.png');
@@ -63,7 +63,7 @@ function create() {
     player = this.physics.add.sprite(100, 450, 'Astronaut');
     player.setCollideWorldBounds(true);
 
-//_________________________________________________________________________________
+    //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
     //player = this.physics.add.sprite(100, 450, 'dude');
     //player.setAllowGravity(false);
@@ -72,12 +72,15 @@ function create() {
 
     //  Player physics properties. Give the little guy a slight bounce.
     //player.setBounce(0.2);
-    
+
     //  Now let's create some ledges
     //platforms.create(600, 400, 'ground');
     //platforms.create(50, 250, 'ground');
     //platforms.create(750, 220, 'ground');
-// _________________________________________________________________________________
+
+
+    // _________________________________________________________________________________
+
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -110,18 +113,23 @@ function create() {
         },
     });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
+    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
+    //star.checkWorldBounds = true;
+    //star.events.onOutOfBounds.add(starOut, this);
 
     fire = this.physics.add.group();
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({color: '#ffffff'});
+
+    //TEMPORARY STATS
+    // TODO: REMOVE later
+    statsTextX = this.add.text(16, 50, 'coord_x: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsTextY = this.add.text(16, 70, 'coord_y: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsVelocityX = this.add.text(16, 70, 'vel_x: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsVelocityY = this.add.text(16, 70, 'vel_y: 0', { fontSize: '24px', fill: '#66ff00' });
+
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -131,6 +139,7 @@ function create() {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
+
 }
 
 
@@ -139,14 +148,12 @@ function update() {
         return;
     }
 
-    if (cursors.left.isDown)
-    {
+    if (cursors.left.isDown) {
         player.setVelocityX(-player_speed);
 
         player.anims.play('left', true);
     }
-    else if (cursors.right.isDown)
-    {
+    else if (cursors.right.isDown) {
         player.setVelocityX(player_speed);
 
         player.anims.play('right', true);
@@ -168,7 +175,16 @@ function update() {
         
     }
     if (cursors.space.isDown) { //EP: Enables Booster
-        player_speed = 800}
+        player_speed = 800
+
+        // TODO: REMOVE LATER
+        // update stats for debugging
+        statsTextX.setText('coord_x: ' + player.x);
+        statsTextY.setText('coord_y: ' + player.y);
+        statsVelocityX.setText('vel_x: ' + player.setVelocityX);
+        statsVelocityY.setText('vel_y: ' + player.setVelocityY);
+    
+    }
         else {player_speed = 200}
 }
 
@@ -192,10 +208,10 @@ function collectStar(player, star) {
     //fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
     //fire.allowGravity = false;
 //_________________________________________________________________________________
-}
 
-function hitFire (player, fire)
-{
+
+
+function hitFire(player, fire) {
     //this.physics.pause();
 
     player.setTint(ed8218);
@@ -204,3 +220,10 @@ function hitFire (player, fire)
     //gameOver = true;
     //TO DO: we want this to decrease pts
 }
+
+//function starOut(star) {
+
+    //  Move the star to the top of the screen again
+    //star.reset(Phaser.Math.RND.between(0, 800), 16, 'star');
+
+//}
