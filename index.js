@@ -25,17 +25,20 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var player_speed // Set's the player's speed between normal and boost
+
+var max = 100
+var min = 0
 
 var game = new Phaser.Game(config);
 
-function updateIrradiance(){
-    
+function updateIrradiance() {
+
     fetch('irradiance.csv')
-    .then(response => console.log(response));
+        .then(response => console.log(response));
 }
 
-function preload ()
-{
+function preload() {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('ground', 'assets/platform.png');
@@ -44,8 +47,7 @@ function preload ()
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
 }
 
-function create ()
-{
+function create() {
     //  A simple background for our game
     this.add.image(400, 300, 'space');
 
@@ -54,18 +56,12 @@ function create ()
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    platforms.create(400, 630, 'ground').setScale(2).refreshBody();
 
-    //  Now let's create some ledges
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
 
     // The player and its settings
-
-
     player = this.physics.add.sprite(100, 450, 'Astronaut');
-
+    player.setCollideWorldBounds(true);
 
 //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
@@ -76,29 +72,31 @@ function create ()
 
     //  Player physics properties. Give the little guy a slight bounce.
     //player.setBounce(0.2);
-    //player.setCollideWorldBounds(true);
+    
+    //  Now let's create some ledges
+    //platforms.create(600, 400, 'ground');
+    //platforms.create(50, 250, 'ground');
+    //platforms.create(750, 220, 'ground');
 
 // _________________________________________________________________________________
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('Astronaut'),
-        frameRate: 10,
-        repeat: -1
+        frames: 'Astronaut'
     });
 
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'Astronaut'} ],
-        frameRate: 20
+
+
+        frames: 'Astronaut'
+
     });
 
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('Astronaut'),
-        frameRate: 10,
-        repeat: -1
+        frames: 'Astronaut'
     });
 
     //  Input Events
@@ -107,8 +105,12 @@ function create ()
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
         key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
+        repeat: 0,
+        setXY:
+        {
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0
+        },
     });
 
     stars.children.iterate(function (child) {
@@ -135,62 +137,56 @@ function create ()
 }
 
 
-function update ()
-{
-    if (gameOver)
-    {
+function update() {
+    if (gameOver) {
         return;
     }
 
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
+        player.setVelocityX(-player_speed);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
+        player.setVelocityX(player_speed);
 
         player.anims.play('right', true);
     }
-    else
-    {
+    else {
         player.setVelocityX(0);
 
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown) // EP: when keyboard up is pressed, move up
-    {
-        player.setVelocityY(-160);
+
+
+    if (cursors.up.isDown) { // EP: Enables float
+        player.setVelocityY(-player_speed);
+        } else if (cursors.down.isDown){
+        player.setVelocityY(player_speed);
+        } else {
+        player.setVelocityY(-5)
+        
     }
-    if (cursors.down.isDown) // EP: hen keyboard down is pressed, move up
-    {
-        player.setVelocityY(160);
-    }
-    if (cursors.space.isDown) // EP: hen keyboard down is pressed, move up
-    {
-        player.setVelocityY(-160);
-    }
+    if (cursors.space.isDown) { //EP: Enables Booster
+        player_speed = 800}
+        else {player_speed = 200}
+
 }
 
-function collectStar (player, star)
-{
+function collectStar(player, star) {
     star.disableBody(true, true);
 
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
 
-    if (stars.countActive(true) === 0)
-    {
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
+    var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
+    star.setCollideWorldBounds(true);
+    star.allowGravity = true;
 
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
 
         var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
