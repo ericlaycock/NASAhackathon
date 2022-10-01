@@ -1,3 +1,7 @@
+const time1 = new Date();
+let globalindex = 0;
+let globalirrad = 0;
+
 
 var config = {
     type: Phaser.AUTO,
@@ -33,14 +37,10 @@ var min = 0
 
 var game = new Phaser.Game(config);
 
-function updateIrradiance() {
 
-    fetch('irradiance.csv')
-        .then(response => console.log(response));
-}
 
 function preload() {
-    //    this.load.image('sky', 'assets/sky.png');
+//    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('sun', 'assets/sun.png');
     this.load.image('ground', 'assets/platform.png');
@@ -64,6 +64,7 @@ function create() {
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'Astronaut');
     player.setCollideWorldBounds(true);
+
 
     //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
@@ -131,41 +132,43 @@ function create() {
             },
         }*/
     });
-
-    //  A simple foreground for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
 
-    irradText = this.add.text(16, 32, 'irradiance: 0', { fontSize: '32px', fill: '#000' });
+    irradText = this.add.text(16,32,'irradiance: '+globalirrad,{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
 
-
+    
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
 
-
+    
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
     this.physics.add.collider(platforms, stars, resetStar, null, this);
 
-    // handle star going off screen
-    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
-    //star.checkWorldBounds = true;
-    //star.events.onOutOfBounds.add(starOut, this);
-
-
-    
-
+    //  A simple foreground for our game
+    this.add.image(config.height/2+100, config.width/2-100, 'sun');
 
 }
 
 
 function update() {
+        //Irradiance level
+        let time2 = new Date();
+        let timeindex = Math.round((time2.getTime() - time1.getTime())/1000);
+        let package = irradiance(timeindex);
+        let globalindex = package['globalindex'];
+        let globalirrad = package['irradlevel'];
+        console.log(globalindex);
+        
+    
+
     if (gameOver) {
         return;
     }
@@ -210,7 +213,7 @@ function collectStar(player, star) {
     scoreText.setText('Score: ' + score);
 
     var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
-    //star.setCollideWorldBounds(true);
+    // star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
     //_________________________________________________________________________________
