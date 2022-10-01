@@ -113,14 +113,15 @@ function create() {
         },
     });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
+    fire = this.physics.add.group({
+        key: 'fire',
+        repeat: 1,
+        setXY:
+        {
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0
+        },
     });
-
-    fire = this.physics.add.group();
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -201,12 +202,10 @@ function collectStar(player, star) {
 
 function hitFire (player, fire)
 {
-    //this.physics.pause();
-
     player.setTint(ed8218);
 
     player.anims.play('turn');
 
-    //gameOver = true;
-    //TO DO: we want this to decrease pts
+    score -= 10;
+    scoreText.setText('Score: ' + score);
 }
