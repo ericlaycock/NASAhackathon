@@ -123,6 +123,14 @@ function create() {
         },
     });
 
+<<<<<<< Updated upstream
+=======
+    fire = this.physics.add.group({
+        key: 'fire',
+        setXY: {x: 10 y: 10}
+    });
+
+>>>>>>> Stashed changes
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
@@ -134,7 +142,7 @@ function create() {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
 
-    this.physics.add.collider(player, fire, hitFire, null, this);
+    //this.physics.add.collider(player, fire, createFire, null, this);
 }
 
 
@@ -177,7 +185,18 @@ function update() {
 
 }
 
+<<<<<<< Updated upstream
 function collectStar(player, star) {
+=======
+function createFire(player, fire){
+    var fire = fire.create('fire');
+    fire.setVelocity(0, 20);
+    fire.allowGravity = true;
+}
+
+function collectStar (player, star)
+{
+>>>>>>> Stashed changes
     star.disableBody(true, true);
 
     //  Add and update the score
@@ -188,6 +207,7 @@ function collectStar(player, star) {
     star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
+<<<<<<< Updated upstream
 
         var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
@@ -197,6 +217,9 @@ function collectStar(player, star) {
         fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
         fire.allowGravity = false;
 
+=======
+        });
+>>>>>>> Stashed changes
     }
 }
 
@@ -206,6 +229,12 @@ function hitFire (player, fire)
 
     player.anims.play('turn');
 
+<<<<<<< Updated upstream
+=======
+    //gameOver = true;
+
+    //decrease the score when 
+>>>>>>> Stashed changes
     score -= 10;
     scoreText.setText('Score: ' + score);
 }
