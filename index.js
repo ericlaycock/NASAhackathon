@@ -1,8 +1,3 @@
-console.log("1");
-import {updateIrradiance} from './updateIrradiance.js';
-console.log("2");
-updateIrradiance();
-console.log("3");
 
 var config = {
     type: Phaser.AUTO,
@@ -11,7 +6,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 50 },
+            gravity: { y: 300 },
             debug: false
         }
     },
@@ -36,7 +31,12 @@ var max = 100
 var min = 0
 
 var game = new Phaser.Game(config);
-// updateIrradiance();
+
+function updateIrradiance() {
+
+    fetch('irradiance.csv')
+        .then(response => console.log(response));
+}
 
 function preload() {
     this.load.image('sky', 'assets/sky.png');
@@ -77,10 +77,7 @@ function create() {
     //platforms.create(600, 400, 'ground');
     //platforms.create(50, 250, 'ground');
     //platforms.create(750, 220, 'ground');
-
-
     // _________________________________________________________________________________
-
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -113,23 +110,18 @@ function create() {
         },
     });
 
-    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
-    //star.checkWorldBounds = true;
-    //star.events.onOutOfBounds.add(starOut, this);
+    stars.children.iterate(function (child) {
+
+        //  Give each star a slightly different bounce
+        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
+    });
 
     fire = this.physics.add.group();
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-    scoreText.setStyle({color: '#ffffff'});
-
-    //TEMPORARY STATS
-    // TODO: REMOVE later
-    statsTextX = this.add.text(16, 50, 'coord_x: 0', { fontSize: '24px', fill: '#66ff00' });
-    statsTextY = this.add.text(16, 70, 'coord_y: 0', { fontSize: '24px', fill: '#66ff00' });
-    statsVelocityX = this.add.text(16, 70, 'vel_x: 0', { fontSize: '24px', fill: '#66ff00' });
-    statsVelocityY = this.add.text(16, 70, 'vel_y: 0', { fontSize: '24px', fill: '#66ff00' });
-
+    scoreText.setStyle({ color: '#ffffff' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -139,7 +131,6 @@ function create() {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
-
 }
 
 
@@ -168,24 +159,16 @@ function update() {
 
     if (cursors.up.isDown) { // EP: Enables float
         player.setVelocityY(-player_speed);
-        } else if (cursors.down.isDown){
-        player.setVelocityY(player_speed); 
-        } else {
+    } else if (cursors.down.isDown) {
+        player.setVelocityY(player_speed);
+    } else {
         player.setVelocityY(-5) //EP: maintain current y
-        
+
     }
     if (cursors.space.isDown) { //EP: Enables Booster
         player_speed = 800
-
-        // TODO: REMOVE LATER
-        // update stats for debugging
-        statsTextX.setText('coord_x: ' + player.x);
-        statsTextY.setText('coord_y: ' + player.y);
-        statsVelocityX.setText('vel_x: ' + player.setVelocityX);
-        statsVelocityY.setText('vel_y: ' + player.setVelocityY);
-    
     }
-        else {player_speed = 200}
+    else { player_speed = 200 }
 }
 
 function collectStar(player, star) {
@@ -199,7 +182,7 @@ function collectStar(player, star) {
     star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
-//_________________________________________________________________________________
+    //_________________________________________________________________________________
     //Commented out at the CA's request.
     //var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
     //var fire = fire.create(x, 16, 'fire');
@@ -207,9 +190,8 @@ function collectStar(player, star) {
     //fire.setCollideWorldBounds(true);
     //fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
     //fire.allowGravity = false;
-//_________________________________________________________________________________
-
-
+    //_________________________________________________________________________________
+}
 
 function hitFire(player, fire) {
     //this.physics.pause();
@@ -220,10 +202,3 @@ function hitFire(player, fire) {
     //gameOver = true;
     //TO DO: we want this to decrease pts
 }
-
-//function starOut(star) {
-
-    //  Move the star to the top of the screen again
-    //star.reset(Phaser.Math.RND.between(0, 800), 16, 'star');
-
-//}
