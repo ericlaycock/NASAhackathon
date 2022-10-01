@@ -1,4 +1,8 @@
-// import {updateIrradiance} from './updateIrradiance';
+console.log("1");
+import {updateIrradiance} from './updateIrradiance.js';
+console.log("2");
+updateIrradiance();
+console.log("3");
 
 var config = {
     type: Phaser.AUTO,
