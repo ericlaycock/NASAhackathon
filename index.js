@@ -178,6 +178,7 @@ function update() {
         let globalindex = package.globalindex;
         let globalirrad = package.irradlevel;
         irradText.setText('irradiance (mW/m^2): '+globalirrad);
+        if(globalindex>6){irradText.setStyle({ color: '#f54242' });}
        
         
     
