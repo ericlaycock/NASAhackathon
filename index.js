@@ -139,7 +139,6 @@ function create() {
 
     // TODO: Christine to delete
     this.physics.add.collider(fire, platforms);
-    value = updateIrradiance();
 
     
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
