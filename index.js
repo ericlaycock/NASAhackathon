@@ -246,7 +246,7 @@ function hitFire(player, fire) {
     this.physics.pause();
 
     //TODO: figure out why he's not turning orange
-    player.setTint(ed8218);
+    player.setTint(0xed8218);
     player.anims.play('turn');
 
     gameOver = true;
