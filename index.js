@@ -25,6 +25,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var irradText;
 var player_speed // Sets the player's speed between normal and boost
 
 var max = 100
@@ -85,6 +86,7 @@ function create() {
         frames: 'Astronaut'
     });
 
+    // Possibly redundant
     this.anims.create({
         key: 'turn',
         frames: 'Astronaut'
@@ -110,6 +112,7 @@ function create() {
         },
     });
 
+    // TODO: Megan delete
     stars.children.iterate(function (child) {
 
         //  Give each star a slightly different bounce
@@ -117,17 +120,25 @@ function create() {
 
     });
 
+    // TODO: Christine to fix
     fire = this.physics.add.group();
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-    scoreText.setStyle({ color: '#ffffff' });
+    scoreText.setStyle({ color: '#42f560' });
+
+    irradText = this.add.text(16,32,'irradiance: 0',{ fontSize: '32px',fill: '#000'});
+    irradText.setStyle({ color: '#42f560' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
-    this.physics.add.collider(fire, platforms);
 
+    // TODO: Christine to delete
+    this.physics.add.collider(fire, platforms);
+    value = updateIrradiance();
+
+    
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
