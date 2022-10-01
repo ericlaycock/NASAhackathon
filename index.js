@@ -28,6 +28,11 @@ var scoreText;
 
 var game = new Phaser.Game(config);
 
+function updateIrradiance(){
+    
+    console.log('test');
+}
+
 function preload ()
 {
     this.load.image('sky', 'assets/sky.png');
@@ -114,6 +119,10 @@ function create ()
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
+
+
+function collectStar(){}
+function hitBomb(){}
 
 function update ()
 {
