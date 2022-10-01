@@ -122,6 +122,14 @@ function create() {
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
+    //TEMPORARY STATS
+    // TODO: REMOVE later
+    statsTextX = this.add.text(16, 50, 'coord_x: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsTextY = this.add.text(16, 70, 'coord_y: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsVelocityX = this.add.text(16, 70, 'vel_x: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsVelocityY = this.add.text(16, 70, 'vel_y: 0', { fontSize: '24px', fill: '#66ff00' });
+
+
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
@@ -167,7 +175,16 @@ function update() {
         
     }
     if (cursors.space.isDown) { //EP: Enables Booster
-        player_speed = 800}
+        player_speed = 800
+
+        // TODO: REMOVE LATER
+        // update stats for debugging
+        statsTextX.setText('coord_x: ' + player.x);
+        statsTextY.setText('coord_y: ' + player.y);
+        statsVelocityX.setText('vel_x: ' + player.setVelocityX);
+        statsVelocityY.setText('vel_y: ' + player.setVelocityY);
+    
+    }
         else {player_speed = 200}
 }
 
