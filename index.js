@@ -77,7 +77,6 @@ function create() {
     //platforms.create(600, 400, 'ground');
     //platforms.create(50, 250, 'ground');
     //platforms.create(750, 220, 'ground');
-
 // _________________________________________________________________________________
 
     //  Our player animations, turning, walking left and walking right.
@@ -88,8 +87,6 @@ function create() {
 
     this.anims.create({
         key: 'turn',
-
-
         frames: 'Astronaut'
 
     });
@@ -132,7 +129,6 @@ function create() {
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
-
     this.physics.add.collider(player, fire, hitFire, null, this);
 }
 
@@ -165,15 +161,14 @@ function update() {
     if (cursors.up.isDown) { // EP: Enables float
         player.setVelocityY(-player_speed);
         } else if (cursors.down.isDown){
-        player.setVelocityY(player_speed);
+        player.setVelocityY(player_speed); 
         } else {
-        player.setVelocityY(-5)
+        player.setVelocityY(-5) //EP: maintain current y
         
     }
     if (cursors.space.isDown) { //EP: Enables Booster
         player_speed = 800}
         else {player_speed = 200}
-
 }
 
 function collectStar(player, star) {
@@ -187,15 +182,15 @@ function collectStar(player, star) {
     star.setCollideWorldBounds(true);
     star.allowGravity = true;
 
-
+//_________________________________________________________________________________
+    //Commented out at the CA's request.
     //var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-//    var fire = fire.create(x, 16, 'fire');
-//   fire.setBounce(1);
-//    fire.setCollideWorldBounds(true);
-//    fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
-//    fire.allowGravity = false;
-
+    //var fire = fire.create(x, 16, 'fire');
+    //fire.setBounce(1);
+    //fire.setCollideWorldBounds(true);
+    //fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    //fire.allowGravity = false;
+//_________________________________________________________________________________
 }
 
 function hitFire (player, fire)
@@ -203,7 +198,6 @@ function hitFire (player, fire)
     //this.physics.pause();
 
     player.setTint(ed8218);
-
     player.anims.play('turn');
 
     //gameOver = true;
