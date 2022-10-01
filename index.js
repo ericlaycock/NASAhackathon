@@ -25,7 +25,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
-var player_speed // Set's the player's speed between normal and boost
+var player_speed // Sets the player's speed between normal and boost
 
 var max = 100
 var min = 0
@@ -121,6 +121,7 @@ function create() {
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText.setStyle({color: '#ffffff'});
 
     //TEMPORARY STATS
     // TODO: REMOVE later
