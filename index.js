@@ -40,8 +40,9 @@ function updateIrradiance() {
 }
 
 function preload() {
-    this.load.image('sky', 'assets/sky.png');
+//    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
+    this.load.image('sun', 'assets/sun.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('fire', 'assets/fire.png');
@@ -50,7 +51,7 @@ function preload() {
 
 function create() {
     //  A simple background for our game
-    this.add.image(400, 300, 'space');
+    this.add.image(config.height/2, config.width/2, 'space');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
@@ -130,6 +131,8 @@ function create() {
     irradText = this.add.text(16,32,'irradiance: 0',{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
 
+    
+
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
@@ -142,6 +145,11 @@ function create() {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
+
+    //  A simple foreground for our game
+    this.add.image(config.height/2+100, config.width/2-100, 'sun');
+
+    
 }
 
 
