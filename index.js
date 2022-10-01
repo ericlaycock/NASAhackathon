@@ -6,7 +6,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 300},
             debug: false
         }
     },
@@ -62,11 +62,23 @@ function create ()
     platforms.create(750, 220, 'ground');
 
     // The player and its settings
+
+
     player = this.physics.add.sprite(100, 450, 'Astronaut');
 
+
+//_________________________________________________________________________________
+    // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
+    //player = this.physics.add.sprite(100, 450, 'dude');
+    //player.setAllowGravity(false);
+    //player.setGravity(0);
+    //.setAllowGravity(false);
+
     //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
+    //player.setBounce(0.2);
+    //player.setCollideWorldBounds(true);
+
+// _________________________________________________________________________________
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -149,9 +161,17 @@ function update ()
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down)
+    if (cursors.up.isDown) // EP: when keyboard up is pressed, move up
     {
-        player.setVelocityY(-330);
+        player.setVelocityY(-160);
+    }
+    if (cursors.down.isDown) // EP: hen keyboard down is pressed, move up
+    {
+        player.setVelocityY(160);
+    }
+    if (cursors.space.isDown) // EP: hen keyboard down is pressed, move up
+    {
+        player.setVelocityY(-160);
     }
 }
 
