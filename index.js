@@ -11,7 +11,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300},
+            gravity: { y: 50 },
             debug: false
         }
     },
@@ -63,7 +63,7 @@ function create() {
     player = this.physics.add.sprite(100, 450, 'Astronaut');
     player.setCollideWorldBounds(true);
 
-//_________________________________________________________________________________
+    //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
     //player = this.physics.add.sprite(100, 450, 'dude');
     //player.setAllowGravity(false);
@@ -72,12 +72,15 @@ function create() {
 
     //  Player physics properties. Give the little guy a slight bounce.
     //player.setBounce(0.2);
-    
+
     //  Now let's create some ledges
     //platforms.create(600, 400, 'ground');
     //platforms.create(50, 250, 'ground');
     //platforms.create(750, 220, 'ground');
-// _________________________________________________________________________________
+
+
+    // _________________________________________________________________________________
+
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -110,12 +113,9 @@ function create() {
         },
     });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
+    //var star = stars.create(Phaser.Math.RND.between(0, 800), 0, 'star');
+    //star.checkWorldBounds = true;
+    //star.events.onOutOfBounds.add(starOut, this);
 
     fire = this.physics.add.group();
 
@@ -139,6 +139,7 @@ function create() {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
+
 }
 
 
@@ -147,14 +148,12 @@ function update() {
         return;
     }
 
-    if (cursors.left.isDown)
-    {
+    if (cursors.left.isDown) {
         player.setVelocityX(-player_speed);
 
         player.anims.play('left', true);
     }
-    else if (cursors.right.isDown)
-    {
+    else if (cursors.right.isDown) {
         player.setVelocityX(player_speed);
 
         player.anims.play('right', true);
@@ -209,10 +208,10 @@ function collectStar(player, star) {
     //fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
     //fire.allowGravity = false;
 //_________________________________________________________________________________
-}
 
-function hitFire (player, fire)
-{
+
+
+function hitFire(player, fire) {
     //this.physics.pause();
 
     player.setTint(ed8218);
@@ -221,3 +220,10 @@ function hitFire (player, fire)
     //gameOver = true;
     //TO DO: we want this to decrease pts
 }
+
+//function starOut(star) {
+
+    //  Move the star to the top of the screen again
+    //star.reset(Phaser.Math.RND.between(0, 800), 16, 'star');
+
+//}
