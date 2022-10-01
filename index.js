@@ -1,6 +1,3 @@
-const time1 = new Date();
-let globalindex = 0;
-let globalirrad = 0;
 
 
 var config = {
@@ -21,6 +18,14 @@ var config = {
     }
 };
 
+// Initial tick in a tock function
+const time1 = new Date();
+// Integer from 1-8 representing minimum (1) and maximum (8) solar irradiance
+let globalindex = 0;
+// Actual value in mW/m^2
+let globalirrad = 0;
+
+
 var player;
 var stars;
 var fire;
@@ -30,10 +35,10 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 var irradText;
-var player_speed // Sets the player's speed between normal and boost
+var player_speed; // Sets the player's speed between normal and boost
 
-var max = 100
-var min = 0
+var max = 100;
+var min = 0;
 
 var game = new Phaser.Game(config);
 
@@ -143,7 +148,7 @@ function create() {
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
-    irradText = this.add.text(16,32,'irradiance: '+globalirrad,{ fontSize: '32px',fill: '#000'});
+    irradText = this.add.text(16,32,'irradiance (mW/m^2): '+globalirrad,{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
 
 
@@ -174,7 +179,7 @@ function update() {
         let globalirrad = package['irradlevel'];
         console.log(globalindex);
         console.log(globalirrad);
-        irradText.setText('irradiance: '+globalirrad);
+        irradText.setText('irradiance (mW/m^2): '+globalirrad);
        
         
     
