@@ -119,7 +119,13 @@ function create ()
     fire = this.physics.add.group();
 
     //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' });
+
+
+    //TEMPORARY STATS
+    // TODO: REMOVE later
+    statsTextX = this.add.text(16, 50, 'x_val: 0', { fontSize: '24px', fill: '#66ff00' });
+    statsTextY = this.add.text(16, 70, 'y_val: 0', { fontSize: '24px', fill: '#66ff00' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -170,7 +176,20 @@ function update ()
     if (cursors.space.isDown) // EP: hen keyboard down is pressed, move up
     {
         player.setVelocityY(-160);
+
+
+        // TODO: REMOVE LATER
+        // update stats for debugging
+        statsTextX.setText('x_val: ' + player.x);
+        statsTextY.setText('y_val: ' + player.y);
+    
     }
+    
+    
+    // // TODO: REMOVE LATER
+    // {
+    //     
+    // }
 }
 
 function collectStar (player, star)
