@@ -30,7 +30,8 @@ var game = new Phaser.Game(config);
 
 function updateIrradiance(){
     
-    console.log('test');
+    fetch('irradiance.csv')
+    .then(response => console.log(response));
 }
 
 function preload ()
@@ -120,9 +121,6 @@ function create ()
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
 
-
-function collectStar(){}
-function hitBomb(){}
 
 function update ()
 {
