@@ -101,13 +101,6 @@ function create() {
         },
     });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
-
     bombs = this.physics.add.group();
 
     //  The score
