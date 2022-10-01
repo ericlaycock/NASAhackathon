@@ -177,8 +177,6 @@ function update() {
         let package = irradiance(timeindex);
         let globalindex = package.globalindex;
         let globalirrad = package.irradlevel;
-        console.log(globalindex);
-        console.log(globalirrad);
         irradText.setText('irradiance (mW/m^2): '+globalirrad);
        
         
