@@ -32,14 +32,13 @@ var min = 0
 
 var game = new Phaser.Game(config);
 
-function updateIrradiance(){
-    
+function updateIrradiance() {
+
     fetch('irradiance.csv')
-    .then(response => console.log(response));
+        .then(response => console.log(response));
 }
 
-function preload ()
-{
+function preload() {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('ground', 'assets/platform.png');
@@ -48,8 +47,7 @@ function preload ()
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
 }
 
-function create ()
-{
+function create() {
     //  A simple background for our game
     this.add.image(400, 300, 'space');
 
@@ -90,7 +88,10 @@ function create ()
 
     this.anims.create({
         key: 'turn',
+
+
         frames: 'Astronaut'
+
     });
 
     this.anims.create({
@@ -104,8 +105,12 @@ function create ()
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
         key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
+        repeat: 0,
+        setXY:
+        {
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0
+        },
     });
 
     stars.children.iterate(function (child) {
@@ -132,10 +137,8 @@ function create ()
 }
 
 
-function update ()
-{
-    if (gameOver)
-    {
+function update() {
+    if (gameOver) {
         return;
     }
 
@@ -151,12 +154,13 @@ function update ()
 
         player.anims.play('right', true);
     }
-    else
-    {
+    else {
         player.setVelocityX(0);
 
         player.anims.play('turn');
     }
+
+
 
     if (cursors.up.isDown) { // EP: Enables float
         player.setVelocityY(-player_speed);
@@ -164,6 +168,7 @@ function update ()
         player.setVelocityY(player_speed);
         } else {
         player.setVelocityY(-5)
+        
     }
     if (cursors.space.isDown) { //EP: Enables Booster
         player_speed = 800}
@@ -171,22 +176,17 @@ function update ()
 
 }
 
-function collectStar (player, star)
-{
+function collectStar(player, star) {
     star.disableBody(true, true);
 
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
 
-    if (stars.countActive(true) === 0)
-    {
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
+    var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
+    star.setCollideWorldBounds(true);
+    star.allowGravity = true;
 
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
 
         var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
