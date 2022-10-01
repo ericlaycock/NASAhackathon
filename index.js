@@ -171,52 +171,56 @@ function create() {
 
 
 function update() {
+
+    if (gameOver) {
+        return;
+    } else {
+
         //Irradiance level
         let time2 = new Date();
         let timeindex = Math.round((time2.getTime() - time1.getTime())/1000);
         let package = irradiance(timeindex);
-        let globalindex = package.globalindex;
-        let globalirrad = package.irradlevel;
+        globalindex = package.globalindex;
+        globalirrad = package.irradlevel;
         irradText.setText('irradiance (mW/m^2): '+globalirrad);
         if(globalindex>6){irradText.setStyle({ color: '#f54242' });}
-       
-        
+
+
+        if (cursors.left.isDown) {
+            player.setVelocityX(-player_speed);
     
+            player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown) {
+            player.setVelocityX(player_speed);
+    
+            player.anims.play('right', true);
+        }
+        else {
+            player.setVelocityX(0);
+    
+            player.anims.play('turn');
+        }
+    
+    
+    
+        if (cursors.up.isDown) { // EP: Enables float
+            player.setVelocityY(-player_speed);
+        } else if (cursors.down.isDown) {
+            player.setVelocityY(player_speed);
+        } else {
+            player.setVelocityY(-5); //EP: maintain current y
+    
+        }
+        if (cursors.space.isDown) { //EP: Enables Booster
+            player_speed = 800;
+        }
+        else { player_speed = 200; }
 
-    if (gameOver) {
-        return;
+
     }
 
-    if (cursors.left.isDown) {
-        player.setVelocityX(-player_speed);
 
-        player.anims.play('left', true);
-    }
-    else if (cursors.right.isDown) {
-        player.setVelocityX(player_speed);
-
-        player.anims.play('right', true);
-    }
-    else {
-        player.setVelocityX(0);
-
-        player.anims.play('turn');
-    }
-
-
-
-    if (cursors.up.isDown) { // EP: Enables float
-        player.setVelocityY(-player_speed);
-    } else if (cursors.down.isDown) {
-        player.setVelocityY(player_speed);
-    } else {
-        player.setVelocityY(-5) //EP: maintain current y
-
-    }
-    if (cursors.space.isDown) { //EP: Enables Booster
-        player_speed = 800
-    }
-    else { player_speed = 200 }
 }
 
 function collectStar(player, star) {
