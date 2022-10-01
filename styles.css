@@ -1,0 +1,92 @@
+.nav-link {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 100 !important;
+  color: black;  
+}
+
+.nav-link.active{
+    background-color: orange;
+    border-radius: 25px;
+}
+
+.btn-yel {
+    background-color: yellow;
+}
+
+.btn-oran {
+    background-color: orange;
+}
+
+.videohead {
+    background-color: mediumseagreen;
+    border-radius:25px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.signupbox{
+    background-color: rgb(214, 72, 21);
+    border-radius: 25px;
+}
+
+h1 {
+    text-align: left;
+}
+
+.hidden123{
+    display: none !important;
+}
+
+.parahead {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: medium;
+    font-weight: normal;
+}
+
+/* a.button{
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    background-color: orange;
+    
+} */
+
+.imgx {
+    height: auto;
+    width: auto;
+
+    max-width: 70%;
+    max-height: auto;
+
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.img-thumbnail {
+
+    background-color: rgb(198, 231, 213) !important;
+}
+
+.alejo_imgx{
+    height: auto;
+    width: auto;
+
+    max-width: 73%;
+    max-height: auto;
+
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.btn-outline-success, .btn-outline-success:visited {
+    border-color: mediumseagreen;
+    
+}
+
+.btn-outline-success:hover{
+    background-color: mediumseagreen;
+
+}

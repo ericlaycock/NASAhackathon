@@ -1,0 +1,253 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+   <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+    </style>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <title>Members Area - Pineapple Spanish</title>
+</head>
+<body>
+   
+   
+
+
+    <div class="container">
+        <h1 class="text-center">Pineapple Spanish Members' area</h1>
+
+        <!-- Navigation bar -->
+        <ul class="nav justify-content-end my-3">
+            <li class="nav-item">
+              <a class="nav-link active" >Verbs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/vocab.html">Vocab</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/bookcall.html">Book a call</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/memory.html">Memory</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/pron.html">Pronunciation</a>
+            </li>
+          </ul>
+    </div>
+    <!-- Two columns - left is verb accordion, right is displayed content -->
+
+        <div class="row my-4">
+          <div class="col-4 leftboy">
+          <!-- Accordion start -->
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Present Tense
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <!-- Present Tense content -->
+                  <!-- Todo: add .active to list-group-item when clicked -->
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><button type="button" class="btn btn-yel pres_reg">Regular</button></li>
+                    <li class="list-group-item"><button type="button" class="btn btn-yel pres_hirreg">Highly Irregular</button></li>
+                    <li class="list-group-item"><button type="button" class="btn btn-yel pres_oue">O:UE Irregular</button></li>
+                    <li class="list-group-item"><button type="button" class="btn btn-yel pres_ei">E:I Irregular</button></li>
+                    <li class="list-group-item"><button type="button" class="btn btn-yel pres_eie">E:IE Irregular</button></li>
+
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Simple Past Tense (Preterite)
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_reg">Regular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_hirreg">Highly Irregular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_stem">Stem Changers</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_ei">E:I Irregular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_ducir">DUCIR</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_weird">Weird Spelling Changes</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel pret_synth">Putting it all Together</button></li>
+
+                      </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Other Beginner Conjugations
+                </button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><button type="button" class="btn btn-yel voy_a">Simple Future Tense</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel reflex_reg">Reflexive Regular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel reflex_irreg">Reflexive Irregular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel gustar">Gustar & Similar Verbs</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel gerreg">Gerund Regular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel gerirreg">Gerund Irregular</button></li>
+                        <li class="list-group-item"><button type="button" class="btn btn-yel tengoque">Tengo que vs. Necesito</button></li>
+
+                      </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Imperf -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                   Imperfect
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel pretvimperf">Preterite vs. Imperfect</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imperf_reg">Imperfect Regular</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imperf_irreg">Imperfect Irregular</button></li>
+
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!-- DOP -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Direct & Indirect Object Pronouns
+                  </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel dop1">Direct Object Pronouns (1)</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel dop2">Direct Object Pronouns (2)</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel dop3">Direct Object Pronouns (3) </button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel iop1">Indirect Object Pronouns </button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel dopiop">Direct + Indirect Object Pronouns </button></li>
+
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!-- Perf -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    Present & Past Perfect
+                  </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel pres_perf">Present Perfect</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel pres_perf_irreg">Present Perfect Irregular</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel past_perf">Past Perfect</button></li>
+
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!-- Imperative -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSeven">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    Imperative
+                  </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imptv_af_tu">Imperative Affirmative (tú)</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imptv_af_ud">Imperative Affirmative (Ud)</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imptv_ng_tuud">Imperative Negative (tú / Ud)</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imptv_nos">Imperative Nosotros</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel imptv_uds">Imperative Uds</button></li>
+  
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!-- Future -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingEight">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                    Future Tense
+                  </button>
+                </h2>
+                <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel fut_reg">Future Regular</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel fut_irreg">Future Irregular</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel fut_perf">Future Perfect</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel cond">Conditional</button></li>
+  
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!-- Subjunctive -->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingNine">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                    Subjunctive
+                  </button>
+                </h2>
+                <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button type="button" class="btn btn-yel subj_pres">Subjunctive Present</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel what_is_subj">What is the Subjunctive?</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel subj_irreg">Subjunctive Irregular</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel subj_trig">Subjunctive Triggers</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel subj_impf">Subjunctive Imperfect</button></li>
+                          <li class="list-group-item"><button type="button" class="btn btn-yel subj_perf">Subjunctive Perfect</button></li>
+  
+                        </ul>
+                  </div>
+                </div>
+              </div>
+
+
+          </div>
+          <!-- accordion end -->
+          </div>
+          <div class="col-8 rightboy" align="center">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Vu0BdYuRbCM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+
+
+        </div>
+
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="./bundle.js"></script>
+
+</body>
+</html>
