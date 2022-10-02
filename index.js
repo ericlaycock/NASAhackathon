@@ -54,6 +54,9 @@ function preload() {
     //    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('sun', 'assets/sun.png');
+    this.load.image('sun0', 'assets/sun0.png');
+    this.load.image('sun1', 'assets/sun1.png');
+    this.load.image('sun2', 'assets/sun2.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('fire', 'assets/fire2.png');
@@ -97,6 +100,18 @@ function create() {
     // Possibly redundant
     this.anims.create({ key: 'turn', frames: 'Astronaut' });
 
+    //Sun Animation attempt
+    this.anims.create({
+        key: 'sunny',
+        frames: [
+            { key: 'sun0' },
+            { key: 'sun1' },
+            { key: 'sun2' },
+        ],
+        frameRate: 30,
+        repeat: Infinity
+    });
+
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -116,7 +131,8 @@ function create() {
 
     //  A simple foreground for our game
     // @ts-ignore
-    this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sun");
+    //this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sunny");
+    this.add.sprite(config.height / 2 + 100, config.width / 2 - 100, 'sun0').play('sunny');
 
     //  On Screen Texts
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
