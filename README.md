@@ -49,5 +49,5 @@ However:
 **<ins>Image Sources:<ins>**
 - Banner photo created with image from <a href="https://unsplash.com/@nasa=">NASA</a> on <a href="https://unsplash.com/s/photos/solar-flare?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> and font by <a href="https://fontesk.com/space-fray-font/">Margarita Fray</a>
 - Health Booster created with image from <a target="_blank" href="https://icons8.com/icon/64452/heart">Heart</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-- {add astronaunt}
-- {add space station}
+- Astronaut created with image from <a target="_blank" href="https://icons8.com/icon/Cga3qgFxkACt/astronaut">Astronaut</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+- Space Station created with image from https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/ISS_spacecraft_model_1.png/320px-ISS_spacecraft_model_1.png?fbclid=IwAR1blJNjyNpgt9lCYmFNz_wLeTrCgy7Oh3TMW7ZBR1hb07ZyIAWtWJ-HMTM
