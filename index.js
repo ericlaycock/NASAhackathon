@@ -54,6 +54,8 @@ var hp_timer = 0;
 var warningText;
 var gameOverText;
 var solarFlareText;
+const solarFlareSpeed=20; //how quickly we iterate through the magnetic field data set. 
+                        //for faster "waves", increase from 20 to 100 or higher.
 
 
 var game = new Phaser.Game(config);
@@ -289,7 +291,7 @@ function update() {
         irradText.setText('irradiance (mW/m^2): ' + globalirrad);
         if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
         
-        let package2 = magneticfs(timeindex);
+        let package2 = magneticfs(timeindex,solarFlareSpeed);
         globalmagindex = package2.globalmagindex;
         globalMFS = package2.globalMFS;
         magfieldText.setText('magnetic field strength (Gauss): '+globalMFS);
