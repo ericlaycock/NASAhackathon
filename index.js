@@ -34,10 +34,17 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 var irradText;
-var player_speed; // Sets the player's speed between normal and boost
-
 var max = 100;
 var min = 0;
+
+//EP's library
+var hpText; //HP 
+var player_speed; // Sets the player's speed between normal and boost 
+var hp = 100;;//starts at 100 and decreases 10 when too close to the sun
+var danger_zone; // zone where it's too close to the sun
+var safe_zone; // zone that isn't too close to the sun
+var hp_timer = 0;
+var warningText;
 
 var game = new Phaser.Game(config);
 
@@ -59,8 +66,13 @@ function preload() {
 
 /** @this Phaser.Scene */
 function create() {
-    //  A simple background for our game
-    // @ts-ignore
+    // Create danger and safe zone
+    danger_zone = this.physics.add.sprite(0,0,'zone');
+    danger_zone.body.setSize(1000, 250, false); //1600,400
+    safe_zone = this.physics.add.sprite(0,250,'safe_zone');
+    safe_zone.body.setSize(1000, 700, false);
+
+    //  A simple background for our game 
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
@@ -74,21 +86,7 @@ function create() {
     player = this.physics.add.sprite(100, 450, "Astronaut");
     player.setCollideWorldBounds(true);
 
-    //_________________________________________________________________________________
-    // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
-    //player = this.physics.add.sprite(100, 450, 'dude');
-    //player.setAllowGravity(false);
-    //player.setGravity(0);
-    //.setAllowGravity(false);
 
-    //  Player physics properties. Give the little guy a slight bounce.
-    //player.setBounce(0.2);
-
-    //  Now let's create some ledges
-    //platforms.create(600, 400, 'ground');
-    //platforms.create(50, 250, 'ground');
-    //platforms.create(750, 220, 'ground');
-    // _________________________________________________________________________________
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({ key: 'left',    frames: 'astroLeft'});
@@ -120,15 +118,28 @@ function create() {
     // @ts-ignore
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sun");
 
-    //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px' });
+    //  On Screen Texts
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
+   
     irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px' });
     irradText.setStyle({ color: '#42f560' });
 
+    warningText = this.add.text(0, 180, 'WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN', { fontSize: '40px', fill: '#000' });
+    warningText.setStyle({ color: '#42f560' });
+    warningText.setVisible(false)
+
+    hpText = this.add.text(16,48,'hp: ',{ fontSize: '32px',fill: '#000'});
+    hpText.setStyle({ color: '#42f560' });
+
+
+
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-
+   
+    // Add danger_zone and safe_zone
+    this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
+    this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this)
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, undefined, this);
@@ -137,6 +148,44 @@ function create() {
 
 }
 
+function display_hp(hp){
+    hpText.setText('hp: '+Math.floor(hp));
+}
+
+function in_safe_zone(player){
+    warningText.setVisible(false) //0
+
+    //EP: uncomment below if you are feeling kind and want to enable healing
+    //if(hp_timer == 60){ /
+    //    hp += 0.5; 
+    //    hp_timer = 0
+    //}
+    //hp_timer += 1;
+    display_hp(hp);
+
+    //0 ensure warning is off
+    //1 once every 1 second
+    //2 chance the hp by +0.5
+    //3 display the updated hp but round to Natural number
+}
+
+// Adjusts's the player's HP if too close to the sun
+function in_danger_zone(player) {
+    
+    if(hp_timer % 30 == 0){ //1
+        warningText.setVisible(!warningText.visible)
+    }
+
+    if(hp_timer == 60){ //1
+        hp -= 1; //2
+        hp_timer = 0
+    }
+    hp_timer += 1
+    display_hp(hp); //3
+    //1 once every 1 second
+    //2 chance the hp by -1
+    //3 display the updated hp
+}
 /** @this Phaser.Scene */
 function update() {
 
@@ -157,21 +206,16 @@ function update() {
 
         if (cursors.left.isDown) {
             player.setVelocityX(-player_speed);
-
             player.anims.play('left', true);
         }
         else if (cursors.right.isDown) {
             player.setVelocityX(player_speed);
-
             player.anims.play('right', true);
         }
         else {
             player.setVelocityX(0);
-
             player.anims.play('turn');
         }
-
-
 
         if (cursors.up.isDown) { // EP: Enables float
             player.setVelocityY(-player_speed);
@@ -187,11 +231,14 @@ function update() {
             player_speed = 800;
         }
         else { player_speed = 200; }
-
-
     }
 
+    danger_zone.setVelocityY(-5) //EP: keeps the zone afloat
+    safe_zone.setVelocityY(-5) //EP: keeps the zone afloat
 
+    if (hp <= -0.0001){ //EP: end game if hp = 0
+        game_over();
+    }
 }
 
 //TODO: make these stop when game ends
@@ -205,7 +252,7 @@ function makeFires() {
         }
         setTimeout(makeFires, 2000);
     }
-
+    else { player_speed = 200 }
 }
 
 /**
@@ -221,19 +268,9 @@ function collectStar(player, star) {
     score += 10;
     scoreText.setText('Score: ' + score);
 
-
     var newStar = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
     // star.setCollideWorldBounds(true);
     newStar.allowGravity = true;
-    //_________________________________________________________________________________
-    //Commented out at the CA's request.
-    //var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-    //var fire = fire.create(x, 16, 'fire');
-    //fire.setBounce(1);
-    //fire.setCollideWorldBounds(true);
-    //fire.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    //fire.allowGravity = false;
-    //_________________________________________________________________________________
 }
 
 /**
@@ -243,12 +280,11 @@ function collectStar(player, star) {
  * @type ArcadePhysicsCallback
  */
 function hitFire(player, fire) {
+    hp = 0;
+    display_hp(hp);
     this.physics.pause();
-
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
-
-    gameOver = true;
 }
 
 function destroyFire(fire) {
@@ -263,4 +299,11 @@ function destroyFire(fire) {
  */
 function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
+}
+
+function game_over(){
+    this.physics.pause();
+    player.setTint(0xeb6c0c);
+    player.anims.play('turn');
+    
 }
