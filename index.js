@@ -194,7 +194,7 @@ function create() {
         repeat: 0,
         setXY: {
             x: Phaser.Math.RND.between(0, 800),
-            y: 0,
+            y: Phaser.Math.RND.between(100, 200),
         },
     });
 
@@ -368,7 +368,7 @@ function makeFires() {
 }
 
 function makeWallOfFires() {
-    var x = 0
+    var x = 0;
     for (var i = 1; i < 29; i++) {
         fire.create(x, 0, 'fire');
         x = x + 30;
@@ -447,13 +447,13 @@ function collectBooster(player, booster) {
 
     hpText.setText('hp: ' + hp);
 
-    var newBooster = boosters.create(Phaser.Math.RND.between(0, 800), 16, 'booster');
-    // trashPiece.setCollideWorldBounds(true);
+    var newBooster = boosters.create(Phaser.Math.RND.between(0, 800), Phaser.Math.RND.between(100, 200), 'booster');
+    // booster.setCollideWorldBounds(true);
     newBooster.allowGravity = true;
 }
 
 function resetBooster(platforms, booster) {
-    booster.setPosition(Phaser.Math.RND.between(0, 800), 0);
+    booster.setPosition(Phaser.Math.RND.between(0, 800), Phaser.Math.RND.between(100, 200));
 }
 
 // OTHER GAME FUNCTIONS
