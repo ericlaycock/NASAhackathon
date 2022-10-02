@@ -340,6 +340,27 @@ function makeFires() {
     else { player_speed = 200; }
 }
 
+function makeFires() {
+    if (gameOver == false) {
+        for (var i = 0; i < globalindex; i++) {
+            console.log(globalindex);
+            var x = Phaser.Math.RND.between(0, 800);
+            fire.create(x, 0, 'fire');
+        }
+        setTimeout(makeFires, 2000);
+    }
+    else { player_speed = 200; }
+}
+
+function makeWallOfFires(){
+    if (/*solarFlare == true*/ true){
+        for (var i = 0; i < 20; i++) {
+            fire.create(i, 0, 'fire');
+        }
+        //setInterval(makeFires, 1000);
+    }
+}
+
 /**
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} fire
