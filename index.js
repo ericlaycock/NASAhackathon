@@ -1,4 +1,4 @@
-
+/** @type Phaser.Types.Core.GameConfig */
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -27,7 +27,6 @@ let globalirrad = 0;
 
 var player;
 var stars;
-/** @type Phaser.Physics.Arcade.Group */
 var fire;
 var platforms;
 var cursors;
@@ -43,7 +42,7 @@ var min = 0;
 var game = new Phaser.Game(config);
 
 
-
+/** @this Phaser.Scene */
 function preload() {
     //    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
@@ -61,6 +60,7 @@ function preload() {
 /** @this Phaser.Scene */
 function create() {
     //  A simple background for our game
+    // @ts-ignore
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
@@ -117,13 +117,13 @@ function create() {
     setTimeout(makeFires, 2000);
 
     //  A simple foreground for our game
+    // @ts-ignore
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sun");
 
     //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px' });
     scoreText.setStyle({ color: '#42f560' });
-    
-    irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px', fill: '#000' });
+    irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px' });
     irradText.setStyle({ color: '#42f560' });
 
     //  Collide the player and the stars with the platforms
@@ -255,6 +255,12 @@ function destroyFire(fire) {
     fire.destroy(fire);
 }
 
+/**
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} platforms
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} stars
+ * @this Phaser.Scene
+ * @type ArcadePhysicsCallback
+ */
 function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
