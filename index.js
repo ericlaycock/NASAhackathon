@@ -63,7 +63,7 @@ function preload() {
     this.load.image('sun2', 'assets/sun2.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('trash', 'assets/space_trash.png');
-    this.load.image('booster', 'assets/star.png');
+    this.load.image('booster', 'assets/heart.png');
     this.load.image('fire', 'assets/fire2.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
