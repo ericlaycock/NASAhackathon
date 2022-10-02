@@ -54,6 +54,7 @@ function preload() {
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
 }
 
+
 function create() {
     //  A simple background for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
@@ -118,29 +119,10 @@ function create() {
             y: 0
         },
     });
-
-    /*fire = this.physics.add.group({
-        key: 'fire',
-        //TO DO set loop condition to a variable that is the irradiant score from 1-8 - 1
-        repeat: 4,
-        setXY:{
-            x: Phaser.Math.RND.between(0, 800),
-            y: 0,
-        },
-
-        //TO DO: figure out how to space them w/o going off the screen
-        for (let i = 0; i <= 5; i++) {
-            
-        }
-    });*/
-    
+ 
     fire = this.physics.add.group();
 
-    //TO DO set loop condition to a variable that is the irradiant score from 1-8
-	for (var i = 0; i < 5; i++) {
-		var x = Phaser.Math.RND.between(0, 800);
-		fire.create(x, 0, 'fire');
-	}
+    setTimeout(makeFires, 2000);
 
     //  A simple foreground for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
@@ -150,10 +132,6 @@ function create() {
     scoreText.setStyle({ color: '#42f560' });
     irradText = this.add.text(16,32,'irradiance (mW/m^2): '+globalirrad,{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
-
-
-
-    
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -168,7 +146,6 @@ function create() {
     this.add.image(config.height/2+100, config.width/2-100, 'sun');
 
 }
-
 
 function update() {
 
@@ -223,6 +200,17 @@ function update() {
 
 }
 
+//TODO: make these stop when game ends
+function makeFires() {
+    console.log(globalindex);
+    for (var i = 0; i < globalindex; i++) {
+        console.log(globalindex);
+		var x = Phaser.Math.RND.between(0, 800);
+		fire.create(x, 0, 'fire');
+	}
+    setTimeout(makeFires, 2000)
+}
+
 function collectStar(player, star) {
     star.disableBody(true, true);
 
@@ -249,8 +237,7 @@ function collectStar(player, star) {
 function hitFire(player, fire) {
     this.physics.pause();
 
-    //TODO: figure out why he's not turning orange
-    player.setTint(0xed8218);
+    player.setTint(0xeb6c0c);
     player.anims.play('turn');
 
     gameOver = true;
