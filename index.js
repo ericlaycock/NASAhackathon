@@ -238,7 +238,7 @@ function create() {
     this.physics.add.overlap(player, normal_zone, in_normal_zone, null, this);
 
     // SOLAR FLARE THINGS
-    if (solarFlareData > 100) {
+    if (/*solarFlareData > 100*/ true) {
         solarFlare = true;
         solarFlareText.setVisible(!solarFlareText.visible);
         setInterval(makeWallOfFires, 1000);
