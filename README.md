@@ -13,13 +13,14 @@ Dance of Irradiance is an HTML5 game we designed for our challenge to creatively
 
 In this game you will be helping our astronaut friend on a perilous mission near the surface of the sun! 
 
-PLACEHOLDER FOR EXPLANNATION OF HOW IT WORKS
+PLACEHOLDER FOR EXPLANNATION OF HOW IRRADIANCE & OTHER DATA SOURCES WORK
 
-| IMAGE 	| **Astronaut Friend:** Who is hiding behind that helmet? Is it me? Is it you? Is it AI? I guess we will never know... 	|
-|-------	|----------------------------------------------------------------------------------------------------------------------	|
-| iMAGE 	| **Fire:** The sun can get a little too hot for our astronaut friend at times. Avoid these at all costs.              	|
-| IMage 	| **Space Trash:**                                                                                                     	|
-|       	|                                                                                                                      	|
+| Object                                                                                                                   	| Description                                                                                                          	|
+|--------------------------------------------------------------------------------------------------------------------------	|----------------------------------------------------------------------------------------------------------------------	|
+| ![Astronaut Icon](https://user-images.githubusercontent.com/26402139/193454696-68565e68-4c43-4026-86a0-0f2c42ac16ab.png) 	| **Astronaut Friend:** Who is hiding behind that helmet? Is it me? Is it you? Is it AI? I guess we will never know... 	|
+| ![Fire Icon](https://user-images.githubusercontent.com/26402139/193454693-f83f8678-577b-4532-a0c0-fab707ad0913.png)      	| **Fire:** The sun can get a little too hot for our astronaut friend at times. Avoid these at all costs.              	|
+| ![Trash Icon](https://user-images.githubusercontent.com/26402139/193454697-3e81aba8-a8f7-40dd-9feb-6772b9aa641d.png)     	| **Space Trash:**                                                                                                   	|
+|                                                                                                                          	|                                                                                                                      	|
 
 
 ### Sources:
