@@ -14,8 +14,8 @@ In this game you will be helping our astronaut friend on a perilous mission near
 
 However:
 - You must avoid the routine solar flares (INFLUENCED BY SOLAR DATA) while attempting to collect the space debris 
-- If you get too close to the sun you will enter the danger zone and lose health points
 - You must avoid the coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in the space station
+- If you get too close to the sun you will enter the danger zone and lose health points
 
 **<ins>Controls:<ins>**
 - Direction keys = navigate your astronaut up, down, left, and right
@@ -50,12 +50,4 @@ However:
 - Banner photo created with image from <a href="https://unsplash.com/@nasa=">NASA</a> on <a href="https://unsplash.com/s/photos/solar-flare?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> and font by <a href="https://fontesk.com/space-fray-font/">Margarita Fray</a>
 - Health Booster created with image from <a target="_blank" href="https://icons8.com/icon/64452/heart">Heart</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 - {add astronaunt}
-- {add solar flare}
-- {add space debris}
 - {add space station}
-
-**<ins>Future Project Upgrades:<ins>**
-- Add live data input rather than stored (previous) solar data
-- Add varrying difficulty over time (e.g., increasing difficulty levels)
-- Add audio
-- Add a restart game option at the game-over screen
