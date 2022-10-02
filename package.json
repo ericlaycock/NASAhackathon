@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ericlaycock/NASAhackathon/issues"
   },
-  "homepage": "https://github.com/ericlaycock/NASAhackathon#readme"
+  "homepage": "https://github.com/ericlaycock/NASAhackathon#readme",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
 }

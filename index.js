@@ -1,5 +1,4 @@
 
-
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -28,6 +27,7 @@ let globalirrad = 0;
 
 var player;
 var stars;
+/** @type Phaser.Physics.Arcade.Group */
 var fire;
 var platforms;
 var cursors;
@@ -62,7 +62,7 @@ function preload() {
 
 }
 
-
+/** @this Phaser.Scene */
 function create() {
     //  A simple background for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
@@ -72,13 +72,11 @@ function create() {
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, 630, 'ground').setScale(2).refreshBody();
-
+    platforms.create(400, 630, "ground").setScale(2).refreshBody();
 
     // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'Astronaut');
+    player = this.physics.add.sprite(100, 450, "Astronaut");
     player.setCollideWorldBounds(true);
-
 
     //_________________________________________________________________________________
     // EDITED BY EP. TO BE EITHER REENABLED OR DELETED.
@@ -98,8 +96,8 @@ function create() {
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
-        key: 'up',
-        frames: 'astroUp'
+        key: "up",
+        frames: "astroUp",
     });
 
     this.anims.create({
@@ -131,13 +129,12 @@ function create() {
 
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
-        key: 'star',
-        repeat: 0,
-        setXY:
-        {
-            x: Phaser.Math.RND.between(0, 800),
-            y: 0
-        },
+    key: "star",
+    repeat: 0,
+    setXY: {
+        x: Phaser.Math.RND.between(0, 800),
+        y: 0,
+    },
     });
 
     fire = this.physics.add.group();
@@ -145,7 +142,7 @@ function create() {
     setTimeout(makeFires, 2000);
 
     //  A simple foreground for our game
-    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
+    this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sun");
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -158,12 +155,13 @@ function create() {
 
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
-    this.physics.add.collider(player, fire, hitFire, null, this);
-    this.physics.add.collider(platforms, stars, resetStar, null, this);
+    this.physics.add.overlap(player, stars, collectStar, undefined, this);
+    this.physics.add.collider(player, fire, hitFire, undefined, this);
+    this.physics.add.collider(platforms, stars, resetStar, undefined, this);
 
 }
 
+/** @this Phaser.Scene */
 function update() {
 
     if (gameOver) {
@@ -173,6 +171,7 @@ function update() {
         //Irradiance level
         let time2 = new Date();
         let timeindex = Math.round((time2.getTime() - time1.getTime()) / 1000);
+        // @ts-ignore
         let package = irradiance(timeindex);
         globalindex = package.globalindex;
         globalirrad = package.irradlevel;
@@ -233,6 +232,12 @@ function makeFires() {
 
 }
 
+/**
+ * @this Phaser.Scene
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} star
+ * @type ArcadePhysicsCallback
+ */
 function collectStar(player, star) {
     star.disableBody(true, true);
 
@@ -241,10 +246,9 @@ function collectStar(player, star) {
     scoreText.setText('Score: ' + score);
 
 
-    var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
+    var newStar = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
     // star.setCollideWorldBounds(true);
-    star.allowGravity = true;
-
+    newStar.allowGravity = true;
     //_________________________________________________________________________________
     //Commented out at the CA's request.
     //var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
@@ -256,6 +260,12 @@ function collectStar(player, star) {
     //_________________________________________________________________________________
 }
 
+/**
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} fire
+ * @this Phaser.Scene
+ * @type ArcadePhysicsCallback
+ */
 function hitFire(player, fire) {
     this.physics.pause();
 
@@ -268,8 +278,6 @@ function hitFire(player, fire) {
 function destroyFire(fire) {
     fire.destroy(fire);
 }
-
-csnn();
 
 function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
