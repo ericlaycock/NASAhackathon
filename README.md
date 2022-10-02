@@ -14,7 +14,7 @@ In this game you will be helping our astronaut friend on a perilous mission near
 
 However:
 - You must avoid the routine solar flares (INFLUENCED BY SOLAR DATA) while attempting to collect the space debris 
-- If you get too close to the sun you will enter the danger zone and lose health points (HP)
+- If you get too close to the sun you will enter the danger zone and lose health points
 - You must avoid the random coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in your safe zone
 
 **<ins>Controls:<ins>**
@@ -32,9 +32,9 @@ However:
 
 **<ins>Mechanics:<ins>**
 - **Astronaut Movement:** The astronaut can move in any of the 4 keyboard directions (up, down, left, right). Each movement direction has a unqiue corresponding animation utilizing the astronaut's jetpack. Boosting the jetpack with spacebar makes your astronaut move even faster.
-- **Danger Zone:** The danger zone represents the area where the astronatut's heat shielding is overwhelmed by the sun and your health points start depleting. The danger zone occupies roughly the top 1/4 of the scene. The incentive for staying close to the sun and suffering hte HP loss is the increased point value obtained from collecting space debris.
-- **Astronaut Health:** The astronaut starts with 100 HP. The astronaut will lose health points (HP) if they spend time too close to the sun (in the danger zone). The only way to restore HP is through Health Boosters.
-- **Health Boosters:** Health boosters restore 10 HP when the astronaut collects them. They are randomly spawned.
+- **Danger Zone:** The danger zone represents the area where the astronatut's heat shielding is overwhelmed by the sun and your health points (HP) start depleting. The danger zone occupies roughly the top 1/3 of the scene. The incentive for staying close to the sun and suffering the HP loss is the increased point value obtained from collecting space debris.
+- **Astronaut Health:** The astronaut starts with 100 HP. The astronaut will lose HP if they spend time too close to the sun (in the danger zone). The only way to restore HP is through Health Boosters.
+- **Health Boosters:** Health boosters restore 10 HP when the astronaut collects them. Their are randomly spawned.
 - **Astronaut Death:** The astronaut can die in one of 3 ways: (1) running out of HP, (2) colliding with a solar flare, and (3) being caught by a coronal mass ejection. Death results in game over.
 - **Space Debris:** Space debris is generated 1 at a time at a random x-coordinate at the top of the screen. The space debris then falls towards the bottom of the screen. If you catch the debris within the danger zone, you get 30 points. If you catch the debris in the anywhere else, you get 10 points. Once you catch a piece of space debris, a new piece of space debris spawns at a random x-coordinate at the top of the screen. If you don't catch the space debris, it hurtles into the void of space! Don't worry though, a new piece of space debris will spawn for you to try and capture again. There is no penalty for not catching a piece of space debris..aside from your guilty consience for letting space continue to be polluted.
 - **Solar Flares:** Solar flares are one of the data display mechanisms used in the game. Solar flares represent irradiance, the power per unit area recieved from the sun in the form of electromagnetic radition. In Dance of Irradiance, irradiance data is obtained from {...} and scaled to a number between 1 and 8. Solar flares are generated every 2 seconds, and the current scaled irradiance value determines the number of solar flares that appear on the screen at once. The more solar flares on the screen at once, the harder it is for the astronaut to dodge all of them. Hence, the perilousness of the astonaut's mission varies in real time with solar irradiance data. Getting hit by a solar flare will result in instant death for our poor astronaut.
