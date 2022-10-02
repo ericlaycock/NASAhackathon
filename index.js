@@ -51,7 +51,7 @@ function preload() {
 
 function create() {
     //  A simple background for our game
-    this.add.image(config.height / 2, config.width / 2, 'space');
+    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
@@ -147,8 +147,7 @@ function create() {
     //star.events.onOutOfBounds.add(starOut, this);
 
 
-    //  A simple foreground for our game
-    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
+    
 
 
 }
