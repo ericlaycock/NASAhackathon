@@ -34,8 +34,6 @@ var score = 0;
 var gameOver = false;
 var scoreText;
 var irradText;
-var max = 100;
-var min = 0;
 
 //EP's library
 var hpText; //HP 
