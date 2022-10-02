@@ -24,6 +24,11 @@ let globalindex = 0;
 // Actual value in mW/m^2
 let globalirrad = 0;
 
+//Actual magnetic field strength in Gauss 
+let globalMFS = 320911309.2;
+// integer from 1-100 representing minimum (1) and maximum (100) mag field strength
+let globalmagindex = 1;
+
 
 var player;
 var trash;
@@ -36,7 +41,6 @@ var gameOver = false;
 var solarFlare = false;
 var scoreText;
 var irradText;
-var solarFlareData = 50;
 var scoreJump = 10;
 
 //EP's library
@@ -217,11 +221,14 @@ function create() {
     irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px' });
     irradText.setStyle({ color: '#42f560' });
 
+    magfieldText = this.add.text(16, 48, 'Mag Field Strength (Gauss): ' + globalMFS, { fontSize: '32px' });
+    magfieldText.setStyle({ color: '#42f560' });
+
     warningText = this.add.text(0, 180, 'WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN', { fontSize: '40px', fill: '#000' });
     warningText.setStyle({ color: '#42f560' });
     warningText.setVisible(false);
 
-    hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
+    hpText = this.add.text(16, 64, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
 
     solarFlareText = this.add.text(0, 160, 'WARNING SOLAR FLARE, GET TO SHELTER | WARNING SOLAR FLARE, GET TO SHELTER | WARNING SOLAR FLARE, GET TO SHELTER', { fontSize: '40px', fill: '#000' });
@@ -238,9 +245,10 @@ function create() {
     this.physics.add.overlap(player, normal_zone, in_normal_zone, null, this);
 
     // SOLAR FLARE THINGS
-    if (solarFlareData > 100) {
+    console.log(globalmagindex)
+    if (globalmagindex > 10) {
         solarFlare = true;
-        solarFlareText.setVisible(!solarFlareText.visible);
+        solarFlareText.setVisible(true);
         setInterval(makeWallOfFires, 1000);
         this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
         make_safe_zone();
@@ -271,7 +279,7 @@ function update() {
         // OTHERWISE
     } else {
 
-        // GET IRRADIANCE LEVEL
+        // GET IRRADIANCE & MAG FIELD LEVEL
         let time2 = new Date();
         let timeindex = Math.round((time2.getTime() - time1.getTime()) / 1000);
         // @ts-ignore
@@ -280,6 +288,14 @@ function update() {
         globalirrad = package.irradlevel;
         irradText.setText('irradiance (mW/m^2): ' + globalirrad);
         if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
+        
+        let package2 = magneticfs(timeindex);
+        globalmagindex = package2.globalmagindex;
+        globalMFS = package2.globalMFS;
+        magfieldText.setText('magnetic field strength (Gauss): '+globalMFS);
+        if (globalmagindex > 100) { magfieldText.setStyle({ color: '#f54242' }); }
+
+
 
         // CHECK CURSORS AND UPDATE ACCORDINGLY
         if (cursors.left.isDown) {
