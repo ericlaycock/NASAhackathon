@@ -32,8 +32,10 @@ var platforms;
 var cursors;
 var score = 0;
 var gameOver = false;
+var solarFlare = false;
 var scoreText;
 var irradText;
+var solarFlareData = 50;
 
 //EP's library
 var hpText; //HP 
@@ -44,6 +46,7 @@ var safe_zone; // zone that isn't too close to the sun
 var hp_timer = 0;
 var warningText;
 var gameOverText;
+var solarFlareText;
 
 var game = new Phaser.Game(config);
 
@@ -73,7 +76,7 @@ function preload() {
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
-    
+
     var progressWidth = this.cameras.main.width;
     var progressHeight = this.cameras.main.height;
     var loadingText = this.make.text({
@@ -87,7 +90,7 @@ function preload() {
     });
 
     loadingText.setOrigin(0.5, 0.5);
-    
+
     var percentText = this.make.text({
         x: progressWidth / 2,
         y: progressHeight / 2 - 5 - 9,
@@ -104,7 +107,7 @@ function preload() {
         progressBar.fillStyle(0xffffff, 1);
         progressBar.fillRect(250, 280, 300 * value, 30);
     });
-    
+
     this.load.on('complete', function () {
         progressBar.destroy();
         progressBox.destroy();
@@ -202,6 +205,10 @@ function create() {
     hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
 
+    solarFlareText = this.add.text(0, 160, 'WARNING SOLAR FLARE, GET TO SHELTER | WARNING SOLAR FLARE, GET TO SHELTER | WARNING SOLAR FLARE, GET TO SHELTER', { fontSize: '40px', fill: '#000' });
+    solarFlareText.setStyle({ color: '#42f560' });
+    solarFlareText.setVisible(false);
+
     gameOverText = this.add.text(config.width / 2, config.height / 2, 'GAME OVER', { fontSize: '64px', fill: '#FFF' });
     gameOverText.visible = false;
 
@@ -211,9 +218,18 @@ function create() {
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
     this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this);
 
+    // SOLAR FLARE THINGS
+    if (solarFlareData > 100) {
+        solarFlare = true;
+        solarFlareText.setVisible(!solarFlareText.visible);
+    } else {
+        solarFlare = false;
+        solarFlareText.setVisible(false);
+    }
+
 
     //  CHECK COLLISIONS AND OVERLAPS
-    // do not move from hger in function
+    // do not move from higer in function
     this.physics.add.overlap(player, trash, collectTrash, undefined, this);
     this.physics.add.collider(player, fire, hitFire, undefined, this);
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
@@ -274,6 +290,8 @@ function update() {
     if (hp <= -0.0001) { //EP: end game if hp = 0
         game_over(this);
     }
+
+
 }
 
 
