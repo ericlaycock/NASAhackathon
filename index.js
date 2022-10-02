@@ -54,7 +54,7 @@ var hp_timer = 0;
 var warningText;
 var gameOverText;
 var solarFlareText;
-const solarFlareSpeed=20; //how quickly we iterate through the magnetic field data set. 
+const solarFlareSpeed=50; //how quickly we iterate through the magnetic field data set. 
                         //for faster "waves", increase from 20 to 100 or higher.
 
 
