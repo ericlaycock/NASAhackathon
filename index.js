@@ -44,11 +44,13 @@ var hpText; //HP
 var player_speed; // Sets the player's speed between normal and boost 
 var hp = 100;//starts at 100 and decreases 10 when too close to the sun
 var danger_zone; // zone where it's too close to the sun
-var safe_zone; // zone that isn't too close to the sun
+var normal_zone; // zone that isn't too close to the sun
+var safe_zone; // zone that can survive fire
 var hp_timer = 0;
 var warningText;
 var gameOverText;
 var solarFlareText;
+
 
 var game = new Phaser.Game(config);
 
@@ -70,7 +72,8 @@ function preload() {
     this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
-
+    this.load.spritesheet('safe_zone','assets/safe_zone.png', { frameWidth: 200, frameHeight: 150});
+ 
     // EVERYTHING ELSE IN preload() FROM HERE IS PROGRESS BAR STUFF
     // TODO: decide if we want to keep it
     //   Couldn't restructure the project and have it still work with the irradiance 
@@ -122,12 +125,12 @@ function preload() {
 /** @this Phaser.Scene */
 function create() {
 
-    // CREATE DANGER AND SAFE ZONES
+    // CREATE DANGER AND NORMAL ZONES
     // do not omove from top of this function
-    danger_zone = this.physics.add.sprite(0, 0, 'zone');
+    danger_zone = this.physics.add.sprite(0, 0, 'danger_zone');
     danger_zone.body.setSize(1000, 250, false); //1600,400
-    safe_zone = this.physics.add.sprite(0, 250, 'safe_zone');
-    safe_zone.body.setSize(1000, 700, false);
+    normal_zone = this.physics.add.sprite(0, 250, 'normal_zone');
+    normal_zone.body.setSize(1000, 700, false);
 
     // GENERAL GAME CREATE
     //  A simple background for our game 
@@ -200,6 +203,8 @@ function create() {
         },
     });
 
+    // CREATE safe_zone
+    safe_zone = this.physics.add.group()
 
     // CREATE FIRE
     fire = this.physics.add.group();
@@ -230,16 +235,19 @@ function create() {
     // ADD DANGER AND SAFE ZONES
     // do not move from here in function
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
-    this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this);
+    this.physics.add.overlap(player, normal_zone, in_normal_zone, null, this);
 
     // SOLAR FLARE THINGS
     if (solarFlareData > 100) {
         solarFlare = true;
         solarFlareText.setVisible(!solarFlareText.visible);
         setInterval(makeWallOfFires, 1000);
+        this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
+        make_safe_zone();
     } else {
         solarFlare = false;
         solarFlareText.setVisible(false);
+        destroy_safe_zone();
     }
 
 
@@ -252,7 +260,6 @@ function create() {
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
     this.physics.add.collider(platforms, boosters, resetBooster, undefined, this);
     this.physics.add.overlap(platforms, fire, destroyFire, undefined, this);
-
 
 }
 
@@ -306,6 +313,7 @@ function update() {
 
     // DANGER AND SAFE ZONE THINGS
     danger_zone.setVelocityY(-5); //EP: keeps the zone afloat
+    normal_zone.setVelocityY(-5); //EP: keeps the zone afloat
     safe_zone.setVelocityY(-5); //EP: keeps the zone afloat
     if (hp <= -0.0001) { //EP: end game if hp = 0
         game_over(this);
@@ -314,6 +322,22 @@ function update() {
 
 }
 
+// safe_zone functions
+/**
+ * @this Phaser.Scene
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} safe_zone
+ * @type ArcadePhysicsCallback
+ */
+function make_safe_zone(){
+    if (gameOver == false) {
+        safe_zone.create(Phaser.Math.RND.between(100, 600),Phaser.Math.RND.between(400, 600),'safe_zone');
+    }
+}
+
+function destroy_safe_zone() {
+    safe_zone.clear(true,true);
+}
 
 // TRASH FUNCTIONS
 /**
@@ -322,7 +346,8 @@ function update() {
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trashPiece
  * @type ArcadePhysicsCallback
  */
-function collectTrash(player, trashPiece) {
+function collectTrash(player, trashPiece) { 
+    //destroy_safe_zone(); // !!! for debugging. Delete for final product.
     trashPiece.disableBody(true, true);
 
     //  Add and update the score
@@ -343,7 +368,6 @@ function collectTrash(player, trashPiece) {
 function resetTrash(platforms, trash) {
     trash.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
-
 
 // FIRE FUNCTIONS
 function makeFires() {
@@ -375,39 +399,33 @@ function makeWallOfFires() {
  */
 function hitFire(player, fire) {
     display_hp(hp);
-    this.physics.pause();
-    player.setTint(0xeb6c0c);
-    player.anims.play('turn');
-    game_over(this);
+
+    if(!(this.physics.overlap(safe_zone,player))){
+        hp=0;
+        game_over(this);
+        this.physics.pause();
+        player.setTint(0xeb6c0c);
+        player.anims.play('turn');
+        gameOverText.visible = true;
+        game_over(this)
+    }
+
 }
 
 function destroyFire(player, fire) {
     fire.setActive(false).setVisible(false);
+    fire.destroy();
 }
-
-
+ 
 // DANGER AND SAFE ZONE FUNCTIONS
 function display_hp(hp) {
     hpText.setText('hp: ' + Math.floor(hp));
 }
 
-function in_safe_zone(player) {
+function in_normal_zone(player) {
     scoreJump = 10;
-
-    warningText.setVisible(false); //0
-
-    //EP: uncomment below if you are feeling kind and want to enable healing
-    //if(hp_timer == 60){ /
-    //    hp += 0.5; 
-    //    hp_timer = 0
-    //}
-    //hp_timer += 1;
+    warningText.setVisible(false);
     display_hp(hp);
-
-    //0 ensure warning is off
-    //1 once every 1 second
-    //2 chance the hp by +0.5
-    //3 display the updated hp but round to Natural number
 }
 
 // Adjusts's the player's HP if too close to the sun
@@ -433,7 +451,7 @@ function in_danger_zone(player) {
 // BOOSTER FUNCTIONS
 function collectBooster(player, booster) {
     booster.disableBody(true, true);
-
+    //make_safe_zone(); // !!! for debugging. Delete for final product.
     //  Add and update the score
     if (hp < 100) {
         hp += 10;
