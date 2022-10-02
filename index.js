@@ -52,6 +52,14 @@ function preload() {
     this.load.image('star', 'assets/star.png');
     this.load.image('fire', 'assets/fire.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
+    this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
+
+    this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
+
+    this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
+
+    this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
+
 }
 
 
@@ -90,8 +98,23 @@ function create() {
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
+        key: 'up',
+        frames: 'astroUp'
+    });
+
+    this.anims.create({
+        key: 'down',
+        frames: 'astroDown'
+    });
+    
+    this.anims.create({
         key: 'left',
-        frames: 'Astronaut'
+        frames: 'astroLeft'
+    });
+
+    this.anims.create({
+        key: 'right',
+        frames: 'astroRight'
     });
 
     // Possibly redundant
@@ -101,10 +124,7 @@ function create() {
 
     });
 
-    this.anims.create({
-        key: 'right',
-        frames: 'Astronaut'
-    });
+    
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -183,8 +203,10 @@ function update() {
     
         if (cursors.up.isDown) { // EP: Enables float
             player.setVelocityY(-player_speed);
+            player.anims.play('up', true);
         } else if (cursors.down.isDown) {
             player.setVelocityY(player_speed);
+            player.anims.play('down', true);
         } else {
             player.setVelocityY(-5); //EP: maintain current y
     
