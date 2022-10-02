@@ -464,14 +464,14 @@ function game_over(game) {
 
 function displayGameOver() {
     if (hp <= 0) {
-        gameOverText.setText("Game Over: The sun defeated you!");
+        gameOverText.setText("Game Over: The sun defeated you! \n score: " + score + "\n hp: " + hp);
     }
     else if (score > 500) {
-        gameOverText.setText("Game Over: You've cleaned up SO MUCH space trash!");
+        gameOverText.setText("Game Over: You've cleaned up SO MUCH space trash! \n score: " + score + "\n hp: " + hp);
     } else if (score > 250) {
-        gameOverText.setText("Game Over: You've cleaned up a lot of space trash!");
+        gameOverText.setText("Game Over: You've cleaned up a lot of space trash! \n score: " + score + "\n hp: " + hp);
     } else if (score > 0) {
-        gameOverText.setText("Game Over: You've cleaned up some space trash!");
+        gameOverText.setText("Game Over: You've cleaned up some space trash! \n score: " + score + "\n hp: " + hp);
     }
     gameOverText.visible = true;
 }
