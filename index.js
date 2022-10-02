@@ -26,7 +26,7 @@ let globalirrad = 0;
 
 
 var player;
-var stars;
+var trash;
 var fire;
 var platforms;
 var cursors;
@@ -59,7 +59,7 @@ function preload() {
     this.load.image('sun1', 'assets/sun1.png');
     this.load.image('sun2', 'assets/sun2.png');
     this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/star.png');
+    this.load.image('trash', 'assets/space_trash.png');
     this.load.image('fire', 'assets/fire2.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
@@ -116,9 +116,9 @@ function create() {
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: "star",
+    //  Some space trash to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    trash = this.physics.add.group({
+        key: "trash",
         repeat: 0,
         setXY: {
             x: Phaser.Math.RND.between(0, 800),
@@ -149,22 +149,22 @@ function create() {
     hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
 
-    gameOverText = this.add.text(config.width/2,config.height/2,'GAME OVER',{ fontSize: '64px',fill: '#FFF'});
+    gameOverText = this.add.text(config.width / 2, config.height / 2, 'GAME OVER', { fontSize: '64px', fill: '#FFF' });
     gameOverText.visible = false;
 
 
 
-    //  Collide the player and the stars with the platforms
+    //  Collide the player with the platforms
     this.physics.add.collider(player, platforms);
 
     // Add danger_zone and safe_zone
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
     this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this);
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, undefined, this);
+    //  Checks to see if the player overlaps with any of the trash, if he does call the collectTrash function
+    this.physics.add.overlap(player, trash, collectTrash, undefined, this);
     this.physics.add.collider(player, fire, hitFire, undefined, this);
-    this.physics.add.collider(platforms, stars, resetStar, undefined, this);
+    this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
 
 }
 
@@ -279,19 +279,19 @@ function makeFires() {
 /**
  * @this Phaser.Scene
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} star
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trashPiece
  * @type ArcadePhysicsCallback
  */
-function collectStar(player, star) {
-    star.disableBody(true, true);
+function collectTrash(player, trashPiece) {
+    trashPiece.disableBody(true, true);
 
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
 
-    var newStar = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
-    // star.setCollideWorldBounds(true);
-    newStar.allowGravity = true;
+    var newTrash = trash.create(Phaser.Math.RND.between(0, 800), 16, 'trash');
+    // trashPiece.setCollideWorldBounds(true);
+    newTrash.allowGravity = true;
 }
 
 /**
@@ -301,12 +301,12 @@ function collectStar(player, star) {
  * @type ArcadePhysicsCallback
  */
 function hitFire(player, fire) {
-    hp = -0.001;
+    hp = 0;
     display_hp(hp);
     this.physics.pause();
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
-    gameOverText.visible = true; 
+    gameOverText.visible = true;
     game_over(this);
 }
 
@@ -316,12 +316,12 @@ function destroyFire(fire) {
 
 /**
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} platforms
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} stars
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trash
  * @this Phaser.Scene
  * @type ArcadePhysicsCallback
  */
-function resetStar(platforms, stars) {
-    stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
+function resetTrash(platforms, trash) {
+    trash.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
 
 function game_over(game) {
