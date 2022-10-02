@@ -45,6 +45,7 @@ var danger_zone; // zone where it's too close to the sun
 var safe_zone; // zone that isn't too close to the sun
 var hp_timer = 0;
 var warningText;
+var gameOverText;
 
 var game = new Phaser.Game(config);
 
@@ -147,6 +148,9 @@ function create() {
 
     hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
+
+    gameOverText = this.add.text(config.width/2,config.height/2,'GAME OVER',{ fontSize: '64px',fill: '#FFF'});
+    gameOverText.visible = false;
 
 
 
@@ -302,6 +306,7 @@ function hitFire(player, fire) {
     this.physics.pause();
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
+    gameOverText.visible = true; 
     game_over(this);
 }
 
