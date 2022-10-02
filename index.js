@@ -52,6 +52,7 @@ var game = new Phaser.Game(config);
 
 /** @this Phaser.Scene */
 function preload() {
+    // LOADS ALL IMAGES FOR GAME
     //    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('sun', 'assets/sun.png');
@@ -70,12 +71,16 @@ function preload() {
 
 /** @this Phaser.Scene */
 function create() {
-    // Create danger and safe zone
+
+    // CREATE DANGER AND SAFE ZONES
+    // do not omove from top of this function
     danger_zone = this.physics.add.sprite(0, 0, 'zone');
     danger_zone.body.setSize(1000, 250, false); //1600,400
     safe_zone = this.physics.add.sprite(0, 250, 'safe_zone');
     safe_zone.body.setSize(1000, 700, false);
 
+
+    // GENERAL GAME CREATE
     //  A simple background for our game 
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'space');
 
@@ -85,21 +90,6 @@ function create() {
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     platforms.create(400, 630, "ground").setScale(2).refreshBody();
-
-    // The player and its settings
-    player = this.physics.add.sprite(100, 450, "Astronaut");
-    player.setCollideWorldBounds(true);
-
-
-
-    //  Our player animations, turning, walking left and walking right.
-    this.anims.create({ key: 'left', frames: 'astroLeft' });
-    this.anims.create({ key: 'right', frames: 'astroRight' });
-    this.anims.create({ key: 'up', frames: 'astroUp' });
-    this.anims.create({ key: 'down', frames: 'astroDown' });
-
-    // Possibly redundant
-    this.anims.create({ key: 'turn', frames: 'Astronaut' });
 
     //Sun Animation attempt
     this.anims.create({
@@ -113,10 +103,34 @@ function create() {
         repeat: Infinity
     });
 
-    //  Input Events
+    //  A simple foreground for our game
+    // @ts-ignore
+    //this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sunny");
+    this.add.sprite(config.height / 2 + 100, config.width / 2 - 100, 'sun0').play('sunny');
+
+
+    //PLAYER CREATE
+    // The player and its settings
+    player = this.physics.add.sprite(100, 450, "Astronaut");
+    player.setCollideWorldBounds(true);
+
+    //  Our player animations, turning, walking left and walking right.
+    this.anims.create({ key: 'left', frames: 'astroLeft' });
+    this.anims.create({ key: 'right', frames: 'astroRight' });
+    this.anims.create({ key: 'up', frames: 'astroUp' });
+    this.anims.create({ key: 'down', frames: 'astroDown' });
+    // Possibly redundant
+    this.anims.create({ key: 'turn', frames: 'Astronaut' });
+
+    //  Collide the player with the platforms
+    this.physics.add.collider(player, platforms);
+
+
+
+    //  INPUT EVENTS
     cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some space trash to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    //  CREATE TRASH
     trash = this.physics.add.group({
         key: "trash",
         repeat: 0,
@@ -126,16 +140,13 @@ function create() {
         },
     });
 
-    fire = this.physics.add.group();
 
+    // CREATE FIRE
+    fire = this.physics.add.group();
     setTimeout(makeFires, 2000);
 
-    //  A simple foreground for our game
-    // @ts-ignore
-    //this.add.image(config.height / 2 + 100, config.width / 2 - 100, "sunny");
-    this.add.sprite(config.height / 2 + 100, config.width / 2 - 100, 'sun0').play('sunny');
 
-    //  On Screen Texts
+    //  CREATE SCREEN TEXT
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
 
@@ -153,21 +164,143 @@ function create() {
     gameOverText.visible = false;
 
 
-
-    //  Collide the player with the platforms
-    this.physics.add.collider(player, platforms);
-
-    // Add danger_zone and safe_zone
+    // ADD DANGER AND SAFE ZONES
+    // do not move from here in function
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
     this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this);
 
-    //  Checks to see if the player overlaps with any of the trash, if he does call the collectTrash function
+
+    //  CHECK COLLISIONS AND OVERLAPS
+    // do not move from hger in function
     this.physics.add.overlap(player, trash, collectTrash, undefined, this);
     this.physics.add.collider(player, fire, hitFire, undefined, this);
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
 
 }
 
+/** @this Phaser.Scene */
+function update() {
+    // IF GAME OVER DON'T UPDATE
+    if (gameOver) {
+        return;
+        // OTHERWISE
+    } else {
+
+        // GET IRRADIANCE LEVEL
+        let time2 = new Date();
+        let timeindex = Math.round((time2.getTime() - time1.getTime()) / 1000);
+        // @ts-ignore
+        let package = irradiance(timeindex);
+        globalindex = package.globalindex;
+        globalirrad = package.irradlevel;
+        irradText.setText('irradiance (mW/m^2): ' + globalirrad);
+        if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
+
+        // CHECK CURSORS AND UPDATE ACCORDINGLY
+        if (cursors.left.isDown) {
+            player.setVelocityX(-player_speed);
+            player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown) {
+            player.setVelocityX(player_speed);
+            player.anims.play('right', true);
+        }
+        else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
+
+        if (cursors.up.isDown) { // EP: Enables float
+            player.setVelocityY(-player_speed);
+            player.anims.play('up', true);
+        } else if (cursors.down.isDown) {
+            player.setVelocityY(player_speed);
+            player.anims.play('down', true);
+        } else {
+            player.setVelocityY(-5); //EP: maintain current y
+
+        }
+        if (cursors.space.isDown) { //EP: Enables Booster
+            player_speed = 800;
+        }
+        else { player_speed = 200; }
+    }
+
+    // DANGER AND SAFE ZONE THINGS
+    danger_zone.setVelocityY(-5); //EP: keeps the zone afloat
+    safe_zone.setVelocityY(-5); //EP: keeps the zone afloat
+    if (hp <= -0.0001) { //EP: end game if hp = 0
+        game_over(this);
+    }
+}
+
+
+// TRASH FUNCTIONS
+/**
+ * @this Phaser.Scene
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trashPiece
+ * @type ArcadePhysicsCallback
+ */
+function collectTrash(player, trashPiece) {
+    trashPiece.disableBody(true, true);
+
+    //  Add and update the score
+    score += 10;
+    scoreText.setText('Score: ' + score);
+
+    var newTrash = trash.create(Phaser.Math.RND.between(0, 800), 16, 'trash');
+    // trashPiece.setCollideWorldBounds(true);
+    newTrash.allowGravity = true;
+}
+
+/**
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} platforms
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trash
+ * @this Phaser.Scene
+ * @type ArcadePhysicsCallback
+ */
+function resetTrash(platforms, trash) {
+    trash.setPosition(Phaser.Math.RND.between(0, 800), 0);
+}
+
+
+// FIRE FUNCTIONS
+function makeFires() {
+    console.log(gameOver);
+    if (gameOver == false) {
+        console.log(globalindex);
+        for (var i = 0; i < globalindex; i++) {
+            console.log(globalindex);
+            var x = Phaser.Math.RND.between(0, 800);
+            fire.create(x, 0, 'fire');
+        }
+        setTimeout(makeFires, 2000);
+    }
+    else { player_speed = 200; }
+}
+
+/**
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
+ * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} fire
+ * @this Phaser.Scene
+ * @type ArcadePhysicsCallback
+ */
+function hitFire(player, fire) {
+    display_hp(hp);
+    this.physics.pause();
+    player.setTint(0xeb6c0c);
+    player.anims.play('turn');
+    gameOverText.visible = true;
+    game_over(this);
+}
+
+function destroyFire(fire) {
+    fire.destroy(fire);
+}
+
+
+// DANGER AND SAFE ZONE FUNCTIONS
 function display_hp(hp) {
     hpText.setText('hp: ' + Math.floor(hp));
 }
@@ -206,124 +339,9 @@ function in_danger_zone(player) {
     //2 chance the hp by -1
     //3 display the updated hp
 }
-/** @this Phaser.Scene */
-function update() {
-
-    if (gameOver) {
-        return;
-    } else {
-
-        //Irradiance level
-        let time2 = new Date();
-        let timeindex = Math.round((time2.getTime() - time1.getTime()) / 1000);
-        // @ts-ignore
-        let package = irradiance(timeindex);
-        globalindex = package.globalindex;
-        globalirrad = package.irradlevel;
-        irradText.setText('irradiance (mW/m^2): ' + globalirrad);
-        if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
 
 
-        if (cursors.left.isDown) {
-            player.setVelocityX(-player_speed);
-            player.anims.play('left', true);
-        }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(player_speed);
-            player.anims.play('right', true);
-        }
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
-
-        if (cursors.up.isDown) { // EP: Enables float
-            player.setVelocityY(-player_speed);
-            player.anims.play('up', true);
-        } else if (cursors.down.isDown) {
-            player.setVelocityY(player_speed);
-            player.anims.play('down', true);
-        } else {
-            player.setVelocityY(-5); //EP: maintain current y
-
-        }
-        if (cursors.space.isDown) { //EP: Enables Booster
-            player_speed = 800;
-        }
-        else { player_speed = 200; }
-    }
-
-    danger_zone.setVelocityY(-5); //EP: keeps the zone afloat
-    safe_zone.setVelocityY(-5); //EP: keeps the zone afloat
-
-    if (hp <= -0.0001) { //EP: end game if hp = 0
-        game_over(this);
-    }
-}
-
-//TODO: make these stop when game ends
-function makeFires() {
-    console.log(gameOver);
-    if (gameOver == false) {
-        console.log(globalindex);
-        for (var i = 0; i < globalindex; i++) {
-            console.log(globalindex);
-            var x = Phaser.Math.RND.between(0, 800);
-            fire.create(x, 0, 'fire');
-        }
-        setTimeout(makeFires, 2000);
-    }
-    else { player_speed = 200; }
-}
-
-/**
- * @this Phaser.Scene
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trashPiece
- * @type ArcadePhysicsCallback
- */
-function collectTrash(player, trashPiece) {
-    trashPiece.disableBody(true, true);
-
-    //  Add and update the score
-    score += 10;
-    scoreText.setText('Score: ' + score);
-
-    var newTrash = trash.create(Phaser.Math.RND.between(0, 800), 16, 'trash');
-    // trashPiece.setCollideWorldBounds(true);
-    newTrash.allowGravity = true;
-}
-
-/**
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} player
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} fire
- * @this Phaser.Scene
- * @type ArcadePhysicsCallback
- */
-function hitFire(player, fire) {
-    hp = 0;
-    display_hp(hp);
-    this.physics.pause();
-    player.setTint(0xeb6c0c);
-    player.anims.play('turn');
-    gameOverText.visible = true;
-    game_over(this);
-}
-
-function destroyFire(fire) {
-    fire.destroy(fire);
-}
-
-/**
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} platforms
- * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trash
- * @this Phaser.Scene
- * @type ArcadePhysicsCallback
- */
-function resetTrash(platforms, trash) {
-    trash.setPosition(Phaser.Math.RND.between(0, 800), 0);
-}
-
+// OTHER GAME FUNCTIONS
 function game_over(game) {
     game.physics.pause();
     player.setTint(0xeb6c0c);
