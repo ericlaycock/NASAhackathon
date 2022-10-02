@@ -223,7 +223,7 @@ function create() {
     solarFlareText.setStyle({ color: '#42f560' });
     solarFlareText.setVisible(false);
 
-    gameOverText = this.add.text(5, config.height / 2, 'GAME OVER', { fontSize: '20px', fill: '#FFF' });
+    gameOverText = this.add.text(5, config.height / 2, 'Game Over', { fontSize: '20px', fill: '#FFF' });
     gameOverText.visible = false;
 
 
@@ -463,10 +463,15 @@ function game_over(game) {
 }
 
 function displayGameOver() {
-    if (score > 500) {
+    if (hp <= 0) {
+        gameOverText.setText("Game Over: The sun defeated you!");
+    }
+    else if (score > 500) {
         gameOverText.setText("Game Over: You've cleaned up SO MUCH space trash!");
     } else if (score > 250) {
         gameOverText.setText("Game Over: You've cleaned up a lot of space trash!");
-    } else { gameOverText.setText("Game Over: You've cleaned up some space trash!"); }
+    } else if (score > 0) {
+        gameOverText.setText("Game Over: You've cleaned up some space trash!");
+    }
     gameOverText.visible = true;
 }
