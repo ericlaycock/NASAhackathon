@@ -15,7 +15,7 @@ In this game you will be helping our astronaut friend on a perilous mission near
 However:
 - You must avoid the routine solar flares (INFLUENCED BY SOLAR DATA) while attempting to collect the space debris 
 - If you get too close to the sun you will enter the danger zone and lose health points
-- You must avoid the coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in the safe area
+- You must avoid the coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in the space station
 
 **<ins>Controls:<ins>**
 - Direction keys = navigate your astronaut up, down, left, and right
