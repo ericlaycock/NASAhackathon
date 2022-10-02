@@ -49,7 +49,6 @@ var gameOverText;
 
 var game = new Phaser.Game(config);
 
-
 /** @this Phaser.Scene */
 function preload() {
     // LOADS ALL IMAGES FOR GAME
