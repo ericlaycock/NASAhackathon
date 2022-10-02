@@ -346,7 +346,6 @@ function resetTrash(platforms, trash) {
 
 // FIRE FUNCTIONS
 function makeFires() {
-    console.log(gameOver);
     if (gameOver == false) {
         console.log(globalindex);
         for (var i = 0; i < globalindex; i++) {
