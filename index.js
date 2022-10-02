@@ -67,6 +67,53 @@ function preload() {
     this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
+
+    // EVERYTHING ELSE IN preload() FROM HERE IS PROGRESS BAR STUFF
+    // TODO: decide if we want to keep it
+    //   Couldn't restructure the project and have it still work with the irradiance 
+    //   files, so this is just a sneaky joke at this point...
+    var progressBar = this.add.graphics();
+    var progressBox = this.add.graphics();
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(240, 270, 320, 50);
+    
+    var progressWidth = this.cameras.main.width;
+    var progressHeight = this.cameras.main.height;
+    var loadingText = this.make.text({
+        x: progressWidth / 2,
+        y: progressHeight / 2 - 50,
+        text: 'The sun is warming up...',
+        style: {
+            font: '20px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    loadingText.setOrigin(0.5, 0.5);
+    
+    var percentText = this.make.text({
+        x: progressWidth / 2,
+        y: progressHeight / 2 - 5 - 9,
+        text: '0%',
+        style: {
+            font: '18px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    this.load.on('progress', function (value) {
+        percentText.setText(parseInt(value * 100) + '%');
+        progressBar.clear();
+        progressBar.fillStyle(0xffffff, 1);
+        progressBar.fillRect(250, 280, 300 * value, 30);
+    });
+    
+    this.load.on('complete', function () {
+        progressBar.destroy();
+        progressBox.destroy();
+        loadingText.destroy();
+        percentText.destroy();
+    });
 }
 
 /** @this Phaser.Scene */
@@ -78,7 +125,6 @@ function create() {
     danger_zone.body.setSize(1000, 250, false); //1600,400
     safe_zone = this.physics.add.sprite(0, 250, 'safe_zone');
     safe_zone.body.setSize(1000, 700, false);
-
 
     // GENERAL GAME CREATE
     //  A simple background for our game 
@@ -144,7 +190,6 @@ function create() {
     // CREATE FIRE
     fire = this.physics.add.group();
     setTimeout(makeFires, 2000);
-
 
     //  CREATE SCREEN TEXT
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
