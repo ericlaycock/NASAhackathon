@@ -45,7 +45,7 @@ var game = new Phaser.Game(config);
 
 
 function preload() {
-//    this.load.image('sky', 'assets/sky.png');
+    //    this.load.image('sky', 'assets/sky.png');
     this.load.image('space', 'assets/space.png');
     this.load.image('sun', 'assets/sun.png');
     this.load.image('ground', 'assets/platform.png');
@@ -106,7 +106,7 @@ function create() {
         key: 'down',
         frames: 'astroDown'
     });
-    
+
     this.anims.create({
         key: 'left',
         frames: 'astroLeft'
@@ -124,7 +124,7 @@ function create() {
 
     });
 
-    
+
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -139,7 +139,7 @@ function create() {
             y: 0
         },
     });
- 
+
     fire = this.physics.add.group();
 
     setTimeout(makeFires, 2000);
@@ -150,20 +150,20 @@ function create() {
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
-    irradText = this.add.text(16,32,'irradiance (mW/m^2): '+globalirrad,{ fontSize: '32px',fill: '#000'});
+    irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px', fill: '#000' });
     irradText.setStyle({ color: '#42f560' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
 
-    
+
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, null, this);
     this.physics.add.collider(player, fire, hitFire, null, this);
     this.physics.add.collider(platforms, stars, resetStar, null, this);
 
     //  A simple foreground for our game
-    this.add.image(config.height/2+100, config.width/2-100, 'sun');
+    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
 
 }
 
@@ -175,32 +175,32 @@ function update() {
 
         //Irradiance level
         let time2 = new Date();
-        let timeindex = Math.round((time2.getTime() - time1.getTime())/1000);
+        let timeindex = Math.round((time2.getTime() - time1.getTime()) / 1000);
         let package = irradiance(timeindex);
         globalindex = package.globalindex;
         globalirrad = package.irradlevel;
-        irradText.setText('irradiance (mW/m^2): '+globalirrad);
-        if(globalindex>6){irradText.setStyle({ color: '#f54242' });}
+        irradText.setText('irradiance (mW/m^2): ' + globalirrad);
+        if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
 
 
         if (cursors.left.isDown) {
             player.setVelocityX(-player_speed);
-    
+
             player.anims.play('left', true);
         }
         else if (cursors.right.isDown) {
             player.setVelocityX(player_speed);
-    
+
             player.anims.play('right', true);
         }
         else {
             player.setVelocityX(0);
-    
+
             player.anims.play('turn');
         }
-    
-    
-    
+
+
+
         if (cursors.up.isDown) { // EP: Enables float
             player.setVelocityY(-player_speed);
             player.anims.play('up', true);
@@ -209,7 +209,7 @@ function update() {
             player.anims.play('down', true);
         } else {
             player.setVelocityY(-5); //EP: maintain current y
-    
+
         }
         if (cursors.space.isDown) { //EP: Enables Booster
             player_speed = 800;
@@ -224,13 +224,16 @@ function update() {
 
 //TODO: make these stop when game ends
 function makeFires() {
-    console.log(globalindex);
-    for (var i = 0; i < globalindex; i++) {
+    if (gameOver == false) {
         console.log(globalindex);
-		var x = Phaser.Math.RND.between(0, 800);
-		fire.create(x, 0, 'fire');
-	}
-    setTimeout(makeFires, 2000)
+        for (var i = 0; i < globalindex; i++) {
+            console.log(globalindex);
+            var x = Phaser.Math.RND.between(0, 800);
+            fire.create(x, 0, 'fire');
+        }
+        setTimeout(makeFires, 2000);
+    }
+
 }
 
 function collectStar(player, star) {
@@ -239,7 +242,7 @@ function collectStar(player, star) {
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
-    
+
 
     var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
     // star.setCollideWorldBounds(true);
@@ -265,9 +268,11 @@ function hitFire(player, fire) {
     gameOver = true;
 }
 
-function destroyFire(fire){
+function destroyFire(fire) {
     fire.destroy(fire);
 }
+
+csnn();
 
 function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
