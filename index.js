@@ -197,7 +197,7 @@ function in_danger_zone(player) {
     }
 
     if (hp_timer == 60) { //1
-        hp -= 1; //2
+        hp -= 10; //2
         hp_timer = 0;
     }
     hp_timer += 1;
