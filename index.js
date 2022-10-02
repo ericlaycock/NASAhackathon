@@ -222,7 +222,7 @@ function create() {
     if (solarFlareData > 100) {
         solarFlare = true;
         solarFlareText.setVisible(!solarFlareText.visible);
-
+        setInterval(makeWallOfFires, 1000);
     } else {
         solarFlare = false;
         solarFlareText.setVisible(false);
@@ -354,11 +354,10 @@ function makeFires() {
 }
 
 function makeWallOfFires(){
-    if (/*solarFlare == true*/ true){
-        for (var i = 0; i < 20; i++) {
-            fire.create(i, 0, 'fire');
-        }
-        //setInterval(makeFires, 1000);
+    var x = 0
+    for (var i = 1; i < 29; i++) {
+        fire.create(x, 0, 'fire');
+        x = x + 30;
     }
 }
 
