@@ -143,9 +143,10 @@ function create() {
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
-
     irradText = this.add.text(16,32,'irradiance: '+globalirrad,{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
+
+
 
     
 
@@ -172,6 +173,9 @@ function update() {
         let globalindex = package['globalindex'];
         let globalirrad = package['irradlevel'];
         console.log(globalindex);
+        console.log(globalirrad);
+        irradText.setText('irradiance: '+globalirrad);
+       
         
     
 
@@ -217,6 +221,7 @@ function collectStar(player, star) {
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
+    
 
     var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
     // star.setCollideWorldBounds(true);
