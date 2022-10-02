@@ -358,18 +358,6 @@ function makeFires() {
     else { player_speed = 200; }
 }
 
-function makeFires() {
-    if (gameOver == false) {
-        for (var i = 0; i < globalindex; i++) {
-            console.log(globalindex);
-            var x = Phaser.Math.RND.between(0, 800);
-            fire.create(x, 0, 'fire');
-        }
-        setTimeout(makeFires, 2000);
-    }
-    else { player_speed = 200; }
-}
-
 function makeWallOfFires() {
     var x = 0;
     for (var i = 1; i < 29; i++) {
