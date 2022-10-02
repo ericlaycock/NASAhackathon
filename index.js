@@ -237,7 +237,6 @@ function create() {
         solarFlare = true;
         solarFlareText.setVisible(!solarFlareText.visible);
         setInterval(makeWallOfFires, 1000);
-        this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
     } else {
         solarFlare = false;
         solarFlareText.setVisible(false);
@@ -251,7 +250,6 @@ function create() {
     this.physics.add.collider(player, fire, hitFire, undefined, this);
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
     this.physics.add.collider(platforms, boosters, resetBooster, undefined, this);
-    this.physics.add.overlap(platforms, fire, destroyFire, undefined, this);
 
 }
 
@@ -326,7 +324,7 @@ function collectTrash(player, trashPiece) {
 
     //  Add and update the score
     score += scoreJump;
-    scoreText.setText('Score: ' + score);
+    scoreText.setText('score: ' + score);
 
     var newTrash = trash.create(Phaser.Math.RND.between(0, 800), 16, 'trash');
     // trashPiece.setCollideWorldBounds(true);
@@ -372,7 +370,7 @@ function makeWallOfFires() {
  * @this Phaser.Scene
  * @type ArcadePhysicsCallback
  */
-function hitFire() {
+function hitFire(player, fire) {
     display_hp(hp);
     this.physics.pause();
     player.setTint(0xeb6c0c);
@@ -382,7 +380,6 @@ function hitFire() {
 }
 
 function destroyFire(fire) {
-    fire.setVisible(false);
     fire.destroy(fire);
 }
 
