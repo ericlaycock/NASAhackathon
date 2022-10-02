@@ -56,7 +56,7 @@ function preload() {
     this.load.image('sun', 'assets/sun.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
-    this.load.image('fire', 'assets/fire.png');
+    this.load.image('fire', 'assets/fire2.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
@@ -67,9 +67,9 @@ function preload() {
 /** @this Phaser.Scene */
 function create() {
     // Create danger and safe zone
-    danger_zone = this.physics.add.sprite(0,0,'zone');
+    danger_zone = this.physics.add.sprite(0, 0, 'zone');
     danger_zone.body.setSize(1000, 250, false); //1600,400
-    safe_zone = this.physics.add.sprite(0,250,'safe_zone');
+    safe_zone = this.physics.add.sprite(0, 250, 'safe_zone');
     safe_zone.body.setSize(1000, 700, false);
 
     //  A simple background for our game 
@@ -89,25 +89,25 @@ function create() {
 
 
     //  Our player animations, turning, walking left and walking right.
-    this.anims.create({ key: 'left',    frames: 'astroLeft'});
-    this.anims.create({ key: 'right',   frames: 'astroRight'});
-    this.anims.create({ key: 'up',      frames: 'astroUp'});
-    this.anims.create({ key: 'down',    frames: 'astroDown'});
+    this.anims.create({ key: 'left', frames: 'astroLeft' });
+    this.anims.create({ key: 'right', frames: 'astroRight' });
+    this.anims.create({ key: 'up', frames: 'astroUp' });
+    this.anims.create({ key: 'down', frames: 'astroDown' });
 
     // Possibly redundant
-    this.anims.create({ key: 'turn',    frames: 'Astronaut'});
+    this.anims.create({ key: 'turn', frames: 'Astronaut' });
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
     //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
     stars = this.physics.add.group({
-    key: "star",
-    repeat: 0,
-    setXY: {
-        x: Phaser.Math.RND.between(0, 800),
-        y: 0,
-    },
+        key: "star",
+        repeat: 0,
+        setXY: {
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0,
+        },
     });
 
     fire = this.physics.add.group();
@@ -121,7 +121,7 @@ function create() {
     //  On Screen Texts
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
-   
+
     irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px' });
     irradText.setStyle({ color: '#42f560' });
 
@@ -129,14 +129,14 @@ function create() {
     warningText.setStyle({ color: '#42f560' });
     warningText.setVisible(false)
 
-    hpText = this.add.text(16,48,'hp: ',{ fontSize: '32px',fill: '#000'});
+    hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
 
 
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-   
+
     // Add danger_zone and safe_zone
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
     this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this)
@@ -148,11 +148,11 @@ function create() {
 
 }
 
-function display_hp(hp){
-    hpText.setText('hp: '+Math.floor(hp));
+function display_hp(hp) {
+    hpText.setText('hp: ' + Math.floor(hp));
 }
 
-function in_safe_zone(player){
+function in_safe_zone(player) {
     warningText.setVisible(false) //0
 
     //EP: uncomment below if you are feeling kind and want to enable healing
@@ -171,12 +171,12 @@ function in_safe_zone(player){
 
 // Adjusts's the player's HP if too close to the sun
 function in_danger_zone(player) {
-    
-    if(hp_timer % 30 == 0){ //1
+
+    if (hp_timer % 30 == 0) { //1
         warningText.setVisible(!warningText.visible)
     }
 
-    if(hp_timer == 60){ //1
+    if (hp_timer == 60) { //1
         hp -= 1; //2
         hp_timer = 0
     }
@@ -236,7 +236,7 @@ function update() {
     danger_zone.setVelocityY(-5) //EP: keeps the zone afloat
     safe_zone.setVelocityY(-5) //EP: keeps the zone afloat
 
-    if (hp <= -0.0001){ //EP: end game if hp = 0
+    if (hp <= -0.0001) { //EP: end game if hp = 0
         game_over();
     }
 }
@@ -301,9 +301,9 @@ function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
 
-function game_over(){
+function game_over() {
     this.physics.pause();
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
-    
+
 }
