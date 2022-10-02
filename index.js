@@ -42,6 +42,7 @@ var solarFlare = false;
 var scoreText;
 var irradText;
 var scoreJump = 10;
+var flareIndex = 0;
 
 //EP's library
 var hpText; //HP 
@@ -330,17 +331,24 @@ function update() {
         if (shuttlePresent == false) {
             solarFlare = true;
             solarFlareText.setVisible(true);
-            setInterval(makeWallOfFires, 1000);
+            makeWallOfFires();
             this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
             make_safe_zone();
             shuttlePresent = true;
         }
+        flareIndex = (flareIndex + 1) % 1000;
+        if (flareIndex % 100 == 0) {
+            makeWallOfFires();
+        }
 
     } else {
         solarFlare = false;
-        shuttlePresent = false;
         solarFlareText.setVisible(false);
-        destroy_safe_zone();
+        if (shuttlePresent == true) {
+            shuttlePresent = false;
+            setTimeout(destroy_safe_zone, 5000);
+        }
+
     }
 
 
@@ -361,6 +369,7 @@ function make_safe_zone() {
 }
 
 function destroy_safe_zone() {
+    console.log("destroy safe zone");
     safe_zone.clear(true, true);
 }
 
