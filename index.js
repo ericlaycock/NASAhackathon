@@ -27,6 +27,7 @@ let globalirrad = 0;
 
 var player;
 var trash;
+var boosters;
 var fire;
 var platforms;
 var cursors;
@@ -61,6 +62,7 @@ function preload() {
     this.load.image('sun2', 'assets/sun2.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('trash', 'assets/space_trash.png');
+    this.load.image('booster', 'assets/star.png');
     this.load.image('fire', 'assets/fire2.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
@@ -186,6 +188,16 @@ function create() {
         },
     });
 
+    //  CREATE BOOSTER
+    boosters = this.physics.add.group({
+        key: "booster",
+        repeat: 0,
+        setXY: {
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0,
+        },
+    });
+
 
     // CREATE FIRE
     fire = this.physics.add.group();
@@ -232,8 +244,10 @@ function create() {
     //  CHECK COLLISIONS AND OVERLAPS
     // do not move from higer in function
     this.physics.add.overlap(player, trash, collectTrash, undefined, this);
+    this.physics.add.overlap(player, boosters, collectBooster, undefined, this);
     this.physics.add.collider(player, fire, hitFire, undefined, this);
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
+    this.physics.add.collider(platforms, boosters, resetBooster, undefined, this);
 
 }
 
@@ -353,7 +367,7 @@ function makeFires() {
     else { player_speed = 200; }
 }
 
-function makeWallOfFires(){
+function makeWallOfFires() {
     var x = 0
     for (var i = 1; i < 29; i++) {
         fire.create(x, 0, 'fire');
@@ -419,6 +433,27 @@ function in_danger_zone(player) {
     //1 once every 1 second
     //2 chance the hp by -1
     //3 display the updated hp
+}
+
+
+// BOOSTER FUNCTIONS
+function collectBooster(player, booster) {
+    booster.disableBody(true, true);
+
+    //  Add and update the score
+    if (hp < 100) {
+        hp += 10;
+    }
+
+    hpText.setText('hp: ' + hp);
+
+    var newBooster = boosters.create(Phaser.Math.RND.between(0, 800), 16, 'booster');
+    // trashPiece.setCollideWorldBounds(true);
+    newBooster.allowGravity = true;
+}
+
+function resetBooster(platforms, booster) {
+    booster.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
 
 // OTHER GAME FUNCTIONS
