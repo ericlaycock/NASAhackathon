@@ -162,9 +162,6 @@ function create() {
     this.physics.add.collider(player, fire, hitFire, null, this);
     this.physics.add.collider(platforms, stars, resetStar, null, this);
 
-    //  A simple foreground for our game
-    this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
-
 }
 
 function update() {
