@@ -15,7 +15,7 @@ In this game you will be helping our astronaut friend on a perilous mission near
 However:
 - You must avoid the routine solar flares (INFLUENCED BY SOLAR DATA) while attempting to collect the space debris 
 - If you get too close to the sun you will enter the danger zone and lose health points
-- You must avoid the random coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in your safe zone
+- You must avoid the random coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in the safe area
 
 **<ins>Controls:<ins>**
 - Direction keys = navigate your astronaut up, down, left, and right
@@ -36,14 +36,14 @@ However:
 - **Astronaut Health:** The astronaut starts with 100 HP. The astronaut will lose HP if they spend time too close to the sun (in the danger zone). The only way to restore HP is through Health Boosters.
 - **Health Boosters:** Health boosters restore 10 HP when the astronaut collects them. Their are randomly spawned.
 - **Astronaut Death:** The astronaut can die in one of 3 ways: (1) running out of HP, (2) colliding with a solar flare, and (3) being caught by a coronal mass ejection. Death results in game over.
-- **Space Debris:** Space debris is generated 1 at a time at a random x-coordinate at the top of the screen. The space debris then falls towards the bottom of the screen. If you catch the debris within the danger zone, you get 30 points. If you catch the debris in the anywhere else, you get 10 points. Once you catch a piece of space debris, a new piece of space debris spawns at a random x-coordinate at the top of the screen. If you don't catch the space debris, it hurtles into the void of space! Don't worry though, a new piece of space debris will spawn for you to try and capture again. There is no penalty for not catching a piece of space debris..aside from your guilty consience for letting space continue to be polluted.
-- **Solar Flares:** Solar flares are one of the data display mechanisms used in the game. Solar flares represent irradiance, the power per unit area recieved from the sun in the form of electromagnetic radition. In Dance of Irradiance, irradiance data is obtained from {...} and scaled to a number between 1 and 8. Solar flares are generated every 2 seconds, and the current scaled irradiance value determines the number of solar flares that appear on the screen at once. The more solar flares on the screen at once, the harder it is for the astronaut to dodge all of them. Hence, the perilousness of the astonaut's mission varies in real time with solar irradiance data. Getting hit by a solar flare will result in instant death for our poor astronaut.
-- **Coronal Mass Ejection:** Coronal mass ejections are the other data display mechanism used in the game. Coronal mass ejections represent i{irradiance}, the {power per unit area recieved from the sun in the form of electromagnetic radiation}. In Dance of Irradiance, {irradiance} data is obtained from {...} and {scaled to a number between 1 and 8}. A coronal mass ejection is generated whenever the scaled {irradiance} value exceeds 5. Coronal mass ejections are so large that the astronaut cannot possibly dodge between it's particles. Getting caught in the coronal mass ejection will result in instant death for our poor astronaut.
-- **Safe Area:** The only way for the astronaut to survive a coronal mass ejection is to stop tryin to collect space debris and hide in the shelter of their rocket ship. The rocket ship is represented by a safe area which appears at a random location enar the bottom of the screen when a coronal mass ejection occurs.
+- **Space Debris:** Space debris is generated 1 at a time at a random x-coordinate at the top of the screen. The space debris then falls towards the bottom of the screen. If you catch the debris within the danger zone, you get 30 points. If you catch the debris in the anywhere else, you get 10 points. Once you catch a piece of space debris, a new piece of space debris spawns at a random x-coordinate at the top of the screen. If you don't catch the space debris, it hurtles into the void of space! Don't worry though, a new piece of space debris will spawn for you to try and capture again. There is no penalty for not catching a piece of space debris...aside from your guilty conscience for letting space continue to be polluted.
+- **Solar Flares:** Solar flares are one of the data display mechanisms used in the game. Solar flares represent irradiance, the power per unit area recieved from the sun in the form of electromagnetic radition. In Dance of Irradiance, irradiance data was obtained from {...} and scaled to a number between 1 and 8. Solar flares are generated every 2 seconds, and the current scaled irradiance value determines the number of solar flares that appear on the screen at once. The more solar flares on the screen at once, the harder it is for the astronaut to dodge all of them. Hence, the perilousness of the astonaut's mission varies in real time with solar irradiance data. Getting hit by a solar flare will result in instant death for our poor astronaut.
+- **Coronal Mass Ejection:** Coronal mass ejections are the other data display mechanism used in the game. Coronal mass ejections represent{irradiance}, the {power per unit area recieved from the sun in the form of electromagnetic radiation}. In Dance of Irradiance, {irradiance} data is obtained from {...} and {scaled to a number between 1 and 8}. A coronal mass ejection is generated whenever the scaled {irradiance} value exceeds {5}. Coronal mass ejections are so large that the astronaut cannot possibly dodge between the ejection particles. Getting caught in the coronal mass ejection will result in instant death for our poor astronaut.
+- **Safe Area:** The only way for the astronaut to survive a coronal mass ejection is to hide in the shelter of their rocket ship. The rocket ship is represented by a safe area which appears at a random location enar the bottom of the screen when a coronal mass ejection occurs.
 
 **<ins>Data Sources:<ins>**
-- {...Parker Solar Probe...}
-- {...Parker Solar Probe...}
+- {Data source for solar flares}
+- {Data source for coronal mass ejections}
 
 **<ins>Image Sources:<ins>**
 - Banner photo created with image from <a href="https://unsplash.com/@nasa=">NASA</a> on <a href="https://unsplash.com/s/photos/solar-flare?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> and font by <a href="https://fontesk.com/space-fray-font/">Margarita Fray</a>
@@ -51,5 +51,6 @@ However:
 **<ins>Future Project Upgrades:<ins>**
 - Add live data input rather than stored (previous) solar data
 - Add varrying difficulty over time (e.g., increasing difficulty levels)
+- Create a rocket ship image to visually represent the safe zone
 - Add audio
 - Add a restart game option at the game-over screen
