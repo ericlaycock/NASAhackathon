@@ -283,7 +283,7 @@ function update() {
         globalmagindex = package2.globalmagindex;
         globalMFS = package2.globalMFS;
         magfieldText.setText('magnetic field strength (Gauss): ' + globalMFS);
-        if (globalmagindex > 100) { magfieldText.setStyle({ color: '#f54242' }); }
+        if (globalmagindex > 80) { magfieldText.setStyle({ color: '#f54242' }); }
 
 
 
