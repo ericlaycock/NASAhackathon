@@ -113,9 +113,24 @@ function create() {
         },
     });
 
+    fire = this.physics.add.group({
+        key: 'fire',
+        //TO DO set loop condition to a variable that is the irradiant score from 1-8 - 1
+        repeat: 4,
+        setXY:{
+            x: Phaser.Math.RND.between(0, 800),
+            y: 0,
+        },
 
-    // TODO: Christine to fix
-    fire = this.physics.add.group();
+        //TO DO: figure out how to space them w/o going off the screen
+        /*for (let i = 0; i <= 5; i++) {
+            repeat: 0,
+            setXY:{
+                x: Phaser.Math.RND.between(0, 800),
+                y: 0,
+            },
+        }*/
+    });
 
     //  A simple foreground for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
@@ -131,9 +146,6 @@ function create() {
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-
-    // TODO: Christine to delete
-    this.physics.add.collider(fire, platforms);
 
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
@@ -213,15 +225,19 @@ function collectStar(player, star) {
 }
 
 function hitFire(player, fire) {
-    //this.physics.pause();
+    this.physics.pause();
 
+    //TODO: figure out why he's not turning orange
     player.setTint(ed8218);
     player.anims.play('turn');
 
-    //gameOver = true;
-    //TO DO: we want this to decrease pts
+    gameOver = true;
+}
+
+function destroyFire(fire){
+    fire.destroy(fire);
 }
 
 function resetStar(platforms, stars) {
-    stars.setPosition(stars.x, 0);
+    stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
