@@ -54,8 +54,9 @@ var hp_timer = 0;
 var warningText;
 var gameOverText;
 var solarFlareText;
-const solarFlareSpeed=50; //how quickly we iterate through the magnetic field data set. 
-                        //for faster "waves", increase from 20 to 100 or higher.
+const solarFlareSpeed = 50; //how quickly we iterate through the magnetic field data set. 
+//for faster "waves", increase from 20 to 100 or higher.
+var shuttlePresent = false;
 
 
 var game = new Phaser.Game(config);
@@ -78,8 +79,8 @@ function preload() {
     this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
     this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
-    this.load.spritesheet('safe_zone','assets/safe_zone.png', { frameWidth: 200, frameHeight: 150});
- 
+    this.load.spritesheet('safe_zone', 'assets/safe_zone.png', { frameWidth: 200, frameHeight: 150 });
+
     // EVERYTHING ELSE IN preload() FROM HERE IS PROGRESS BAR STUFF
     // TODO: decide if we want to keep it
     //   Couldn't restructure the project and have it still work with the irradiance 
@@ -210,7 +211,7 @@ function create() {
     });
 
     // CREATE safe_zone
-    safe_zone = this.physics.add.group()
+    safe_zone = this.physics.add.group();
 
     // CREATE FIRE
     fire = this.physics.add.group();
@@ -246,20 +247,6 @@ function create() {
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
     this.physics.add.overlap(player, normal_zone, in_normal_zone, null, this);
 
-    // SOLAR FLARE THINGS
-    console.log(globalmagindex)
-    if (globalmagindex > 10) {
-        solarFlare = true;
-        solarFlareText.setVisible(true);
-        setInterval(makeWallOfFires, 1000);
-        this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
-        make_safe_zone();
-    } else {
-        solarFlare = false;
-        solarFlareText.setVisible(false);
-        destroy_safe_zone();
-    }
-
 
     //  CHECK COLLISIONS AND OVERLAPS
     // do not move from higer in function
@@ -290,11 +277,11 @@ function update() {
         globalirrad = package.irradlevel;
         irradText.setText('irradiance (mW/m^2): ' + globalirrad);
         if (globalindex > 6) { irradText.setStyle({ color: '#f54242' }); }
-        
-        let package2 = magneticfs(timeindex,solarFlareSpeed);
+
+        let package2 = magneticfs(timeindex, solarFlareSpeed);
         globalmagindex = package2.globalmagindex;
         globalMFS = package2.globalMFS;
-        magfieldText.setText('magnetic field strength (Gauss): '+globalMFS);
+        magfieldText.setText('magnetic field strength (Gauss): ' + globalMFS);
         if (globalmagindex > 100) { magfieldText.setStyle({ color: '#f54242' }); }
 
 
@@ -337,6 +324,26 @@ function update() {
         game_over(this);
     }
 
+    // SOLAR FLARE THINGS
+    console.log(globalmagindex);
+    if (globalmagindex > 80) {
+        if (shuttlePresent == false) {
+            solarFlare = true;
+            solarFlareText.setVisible(true);
+            setInterval(makeWallOfFires, 1000);
+            this.physics.add.overlap(safe_zone, fire, destroyFire, undefined, this);
+            make_safe_zone();
+            shuttlePresent = true;
+        }
+
+    } else {
+        solarFlare = false;
+        shuttlePresent = false;
+        solarFlareText.setVisible(false);
+        destroy_safe_zone();
+    }
+
+
 
 }
 
@@ -347,14 +354,14 @@ function update() {
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} safe_zone
  * @type ArcadePhysicsCallback
  */
-function make_safe_zone(){
+function make_safe_zone() {
     if (gameOver == false) {
-        safe_zone.create(Phaser.Math.RND.between(100, 600),Phaser.Math.RND.between(400, 600),'safe_zone');
+        safe_zone.create(Phaser.Math.RND.between(100, 600), Phaser.Math.RND.between(400, 600), 'safe_zone');
     }
 }
 
 function destroy_safe_zone() {
-    safe_zone.clear(true,true);
+    safe_zone.clear(true, true);
 }
 
 // TRASH FUNCTIONS
@@ -364,7 +371,7 @@ function destroy_safe_zone() {
  * @param {Phaser.Types.Physics.Arcade.SpriteWithDynamicBody} trashPiece
  * @type ArcadePhysicsCallback
  */
-function collectTrash(player, trashPiece) { 
+function collectTrash(player, trashPiece) {
     //destroy_safe_zone(); // !!! for debugging. Delete for final product.
     trashPiece.disableBody(true, true);
 
@@ -418,14 +425,13 @@ function makeWallOfFires() {
 function hitFire(player, fire) {
     display_hp(hp);
 
-    if(!(this.physics.overlap(safe_zone,player))){
-        hp=0;
+    if (!(this.physics.overlap(safe_zone, player))) {
         game_over(this);
         this.physics.pause();
         player.setTint(0xeb6c0c);
         player.anims.play('turn');
         gameOverText.visible = true;
-        game_over(this)
+        game_over(this);
     }
 
 }
@@ -434,7 +440,7 @@ function destroyFire(player, fire) {
     fire.setActive(false).setVisible(false);
     fire.destroy();
 }
- 
+
 // DANGER AND SAFE ZONE FUNCTIONS
 function display_hp(hp) {
     hpText.setText('hp: ' + Math.floor(hp));
