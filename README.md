@@ -15,7 +15,7 @@ In this game you will be helping our astronaut friend on a perilous mission near
 However:
 - You must avoid the routine solar flares (INFLUENCED BY SOLAR DATA) while attempting to collect the space debris 
 - If you get too close to the sun you will enter the danger zone and lose health points (HP)
-- You must avoid the random coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in your rocket ship (represented by the safe area)
+- You must avoid the random coronal mass ejections (INFLUENCED BY SOLAR DATA) by hiding in your safe zone
 
 **<ins>Controls:<ins>**
 - Direction keys = navigate your astronaut up, down, left, and right
@@ -28,7 +28,7 @@ However:
 | **Astronaut Friend**| ![Astronaut Icon](https://user-images.githubusercontent.com/26402139/193454696-68565e68-4c43-4026-86a0-0f2c42ac16ab.png) | Who is hiding behind that helmet? Is it me? Is it you? Is it AI? I guess we will never know... |
 | **Solar Flare** | ![Fire Icon](https://user-images.githubusercontent.com/26402139/193454693-f83f8678-577b-4532-a0c0-fab707ad0913.png) | The sun can get a little too hot for our astronaut friend at times. Avoid these at all costs. |              	|
 | **Space Debris** | ![Trash Icon](https://user-images.githubusercontent.com/26402139/193454697-3e81aba8-a8f7-40dd-9feb-6772b9aa641d.png) | Unfortunately space debris has been found orbiting the sun. Your mission, should you choose to accept, is to collect as much space debris as you can|
-| **Health Booster** | ![Heart Icon]() | ...
+| **Health Booster** | ![Heart Icon](https://raw.githubusercontent.com/ericlaycock/NASAhackathon/main/assets/heart.png) | NASA appreciates the astronaut's efforts to clean up space debris and is launching health boosters into space for them! |
 
 **<ins>Mechanics:<ins>**
 - **Astronaut Movement:** The astronaut can move in any of the 4 keyboard directions (up, down, left, right). Each movement direction has a unqiue corresponding animation utilizing the astronaut's jetpack. Boosting the jetpack with spacebar makes your astronaut move even faster.
