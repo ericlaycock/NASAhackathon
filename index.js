@@ -245,11 +245,14 @@ function create() {
 
     //  CHECK COLLISIONS AND OVERLAPS
     // do not move from higer in function
+
     this.physics.add.overlap(player, trash, collectTrash, undefined, this);
     this.physics.add.overlap(player, boosters, collectBooster, undefined, this);
     this.physics.add.collider(player, fire, hitFire, undefined, this);
     this.physics.add.collider(platforms, trash, resetTrash, undefined, this);
     this.physics.add.collider(platforms, boosters, resetBooster, undefined, this);
+    this.physics.add.overlap(platforms, fire, destroyFire, undefined, this);
+
 
 }
 
@@ -379,8 +382,8 @@ function hitFire(player, fire) {
     game_over(this);
 }
 
-function destroyFire(fire) {
-    fire.destroy(fire);
+function destroyFire(player, fire) {
+    fire.setActive(false).setVisible(false);
 }
 
 
