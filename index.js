@@ -37,6 +37,7 @@ var solarFlare = false;
 var scoreText;
 var irradText;
 var solarFlareData = 50;
+var scoreJump = 10;
 
 //EP's library
 var hpText; //HP 
@@ -324,7 +325,7 @@ function collectTrash(player, trashPiece) {
     trashPiece.disableBody(true, true);
 
     //  Add and update the score
-    score += 10;
+    score += scoreJump;
     scoreText.setText('Score: ' + score);
 
     var newTrash = trash.create(Phaser.Math.RND.between(0, 800), 16, 'trash');
@@ -405,6 +406,8 @@ function display_hp(hp) {
 }
 
 function in_safe_zone(player) {
+    scoreJump = 10;
+
     warningText.setVisible(false); //0
 
     //EP: uncomment below if you are feeling kind and want to enable healing
@@ -423,6 +426,7 @@ function in_safe_zone(player) {
 
 // Adjusts's the player's HP if too close to the sun
 function in_danger_zone(player) {
+    scoreJump = 30;
 
     if (hp_timer % 30 == 0) { //1
         warningText.setVisible(!warningText.visible);
