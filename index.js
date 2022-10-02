@@ -222,6 +222,7 @@ function create() {
     if (solarFlareData > 100) {
         solarFlare = true;
         solarFlareText.setVisible(!solarFlareText.visible);
+
     } else {
         solarFlare = false;
         solarFlareText.setVisible(false);
@@ -420,7 +421,6 @@ function in_danger_zone(player) {
     //2 chance the hp by -1
     //3 display the updated hp
 }
-
 
 // OTHER GAME FUNCTIONS
 function game_over(game) {
