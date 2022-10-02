@@ -161,6 +161,7 @@ function create() {
     // The player and its settings
     player = this.physics.add.sprite(100, 450, "Astronaut");
     player.setCollideWorldBounds(true);
+    player.setSize(30, 30);
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({ key: 'left', frames: 'astroLeft' });
