@@ -114,7 +114,7 @@ function create() {
         },
     });
 
-    fire = this.physics.add.group({
+    /*fire = this.physics.add.group({
         key: 'fire',
         //TO DO set loop condition to a variable that is the irradiant score from 1-8 - 1
         repeat: 4,
@@ -124,22 +124,29 @@ function create() {
         },
 
         //TO DO: figure out how to space them w/o going off the screen
-        /*for (let i = 0; i <= 5; i++) {
-            repeat: 0,
-            setXY:{
-                x: Phaser.Math.RND.between(0, 800),
-                y: 0,
-            },
-        }*/
-    });
+        for (let i = 0; i <= 5; i++) {
+            
+        }
+    });*/
+    
+    fire = this.physics.add.group();
+
+    //TO DO set loop condition to a variable that is the irradiant score from 1-8
+	for (var i = 0; i < 5; i++) {
+		var x = Phaser.Math.RND.between(0, 800);
+		fire.create(x, 0, 'fire');
+	}
+
+    //  A simple foreground for our game
     this.add.image(config.height / 2 + 100, config.width / 2 - 100, 'sun');
 
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
-
     irradText = this.add.text(16,32,'irradiance: '+globalirrad,{ fontSize: '32px',fill: '#000'});
     irradText.setStyle({ color: '#42f560' });
+
+
 
     
 
@@ -166,6 +173,9 @@ function update() {
         let globalindex = package['globalindex'];
         let globalirrad = package['irradlevel'];
         console.log(globalindex);
+        console.log(globalirrad);
+        irradText.setText('irradiance: '+globalirrad);
+       
         
     
 
@@ -211,6 +221,7 @@ function collectStar(player, star) {
     //  Add and update the score
     score += 10;
     scoreText.setText('Score: ' + score);
+    
 
     var star = stars.create(Phaser.Math.RND.between(0, 800), 16, 'star');
     // star.setCollideWorldBounds(true);
