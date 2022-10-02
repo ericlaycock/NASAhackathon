@@ -49,8 +49,10 @@ However:
 **<ins>Image Sources:<ins>**
 - Banner photo created with image from <a href="https://unsplash.com/@nasa=">NASA</a> on <a href="https://unsplash.com/s/photos/solar-flare?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a> and font by <a href="https://fontesk.com/space-fray-font/">Margarita Fray</a>
 - Health Booster created with image from <a target="_blank" href="https://icons8.com/icon/64452/heart">Heart</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-{add astronaunt}
-{add space station}
+- {add astronaunt}
+- {add solar flare}
+- {add space debris}
+- {add space station}
 
 **<ins>Future Project Upgrades:<ins>**
 - Add live data input rather than stored (previous) solar data
