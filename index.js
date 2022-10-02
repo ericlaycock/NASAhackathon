@@ -52,14 +52,10 @@ function preload() {
     this.load.image('star', 'assets/star.png');
     this.load.image('fire', 'assets/fire.png');
     this.load.spritesheet('Astronaut', 'assets/Astronaut.png', { frameWidth: 48, frameHeight: 48 });
-    this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
-
-    this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
-
     this.load.spritesheet('astroLeft', 'assets/astronaut_to_left.png', { frameWidth: 48, frameHeight: 48 });
-
     this.load.spritesheet('astroRight', 'assets/astronaut_to_right.png', { frameWidth: 48, frameHeight: 48 });
-
+    this.load.spritesheet('astroUp', 'assets/astronaut_to_up.png', { frameWidth: 48, frameHeight: 48 });
+    this.load.spritesheet('astroDown', 'assets/astronaut_to_down.png', { frameWidth: 48, frameHeight: 48 });
 }
 
 /** @this Phaser.Scene */
@@ -95,34 +91,13 @@ function create() {
     // _________________________________________________________________________________
 
     //  Our player animations, turning, walking left and walking right.
-    this.anims.create({
-        key: "up",
-        frames: "astroUp",
-    });
-
-    this.anims.create({
-        key: 'down',
-        frames: 'astroDown'
-    });
-
-    this.anims.create({
-        key: 'left',
-        frames: 'astroLeft'
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: 'astroRight'
-    });
+    this.anims.create({ key: 'left',    frames: 'astroLeft'});
+    this.anims.create({ key: 'right',   frames: 'astroRight'});
+    this.anims.create({ key: 'up',      frames: 'astroUp'});
+    this.anims.create({ key: 'down',    frames: 'astroDown'});
 
     // Possibly redundant
-    this.anims.create({
-        key: 'turn',
-        frames: 'Astronaut'
-
-    });
-
-
+    this.anims.create({ key: 'turn',    frames: 'Astronaut'});
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
@@ -147,6 +122,7 @@ function create() {
     //  The score
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
     scoreText.setStyle({ color: '#42f560' });
+    
     irradText = this.add.text(16, 32, 'irradiance (mW/m^2): ' + globalirrad, { fontSize: '32px', fill: '#000' });
     irradText.setStyle({ color: '#42f560' });
 
