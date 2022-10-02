@@ -40,7 +40,7 @@ var min = 0;
 //EP's library
 var hpText; //HP 
 var player_speed; // Sets the player's speed between normal and boost 
-var hp = 100;;//starts at 100 and decreases 10 when too close to the sun
+var hp = 100;//starts at 100 and decreases 10 when too close to the sun
 var danger_zone; // zone where it's too close to the sun
 var safe_zone; // zone that isn't too close to the sun
 var hp_timer = 0;
@@ -143,7 +143,7 @@ function create() {
 
     warningText = this.add.text(0, 180, 'WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN | WARNING TOO CLOSE TO THE SUN', { fontSize: '40px', fill: '#000' });
     warningText.setStyle({ color: '#42f560' });
-    warningText.setVisible(false)
+    warningText.setVisible(false);
 
     hpText = this.add.text(16, 48, 'hp: ', { fontSize: '32px', fill: '#000' });
     hpText.setStyle({ color: '#42f560' });
@@ -155,7 +155,7 @@ function create() {
 
     // Add danger_zone and safe_zone
     this.physics.add.overlap(player, danger_zone, in_danger_zone, null, this); //add to see if i can make hp decrease when player touches it
-    this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this)
+    this.physics.add.overlap(player, safe_zone, in_safe_zone, null, this);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     this.physics.add.overlap(player, stars, collectStar, undefined, this);
@@ -169,7 +169,7 @@ function display_hp(hp) {
 }
 
 function in_safe_zone(player) {
-    warningText.setVisible(false) //0
+    warningText.setVisible(false); //0
 
     //EP: uncomment below if you are feeling kind and want to enable healing
     //if(hp_timer == 60){ /
@@ -189,14 +189,14 @@ function in_safe_zone(player) {
 function in_danger_zone(player) {
 
     if (hp_timer % 30 == 0) { //1
-        warningText.setVisible(!warningText.visible)
+        warningText.setVisible(!warningText.visible);
     }
 
     if (hp_timer == 60) { //1
         hp -= 1; //2
-        hp_timer = 0
+        hp_timer = 0;
     }
-    hp_timer += 1
+    hp_timer += 1;
     display_hp(hp); //3
     //1 once every 1 second
     //2 chance the hp by -1
@@ -249,16 +249,17 @@ function update() {
         else { player_speed = 200; }
     }
 
-    danger_zone.setVelocityY(-5) //EP: keeps the zone afloat
-    safe_zone.setVelocityY(-5) //EP: keeps the zone afloat
+    danger_zone.setVelocityY(-5); //EP: keeps the zone afloat
+    safe_zone.setVelocityY(-5); //EP: keeps the zone afloat
 
     if (hp <= -0.0001) { //EP: end game if hp = 0
-        game_over();
+        game_over(this);
     }
 }
 
 //TODO: make these stop when game ends
 function makeFires() {
+    console.log(gameOver);
     if (gameOver == false) {
         console.log(globalindex);
         for (var i = 0; i < globalindex; i++) {
@@ -268,7 +269,7 @@ function makeFires() {
         }
         setTimeout(makeFires, 2000);
     }
-    else { player_speed = 200 }
+    else { player_speed = 200; }
 }
 
 /**
@@ -296,11 +297,12 @@ function collectStar(player, star) {
  * @type ArcadePhysicsCallback
  */
 function hitFire(player, fire) {
-    hp = 0;
+    hp = -0.001;
     display_hp(hp);
     this.physics.pause();
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
+    game_over(this);
 }
 
 function destroyFire(fire) {
@@ -317,9 +319,10 @@ function resetStar(platforms, stars) {
     stars.setPosition(Phaser.Math.RND.between(0, 800), 0);
 }
 
-function game_over() {
-    this.physics.pause();
+function game_over(game) {
+    game.physics.pause();
     player.setTint(0xeb6c0c);
     player.anims.play('turn');
+    gameOver = true;
 
 }
